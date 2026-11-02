@@ -1,14 +1,14 @@
 'use client';
 
 import {
-    ArrowRight,
-    Building2,
-    CarFront,
-    ClipboardCheck,
-    LocateFixed,
-    Shield,
-    Sparkles,
-    TimerReset,
+  ArrowRight,
+  Building2,
+  CarFront,
+  ClipboardCheck,
+  LocateFixed,
+  Shield,
+  Sparkles,
+  TimerReset,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

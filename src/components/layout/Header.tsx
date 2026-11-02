@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, Menu, ShieldCheck, X } from 'lucide-react';
+import { Gavel, Home, Menu, ShieldCheck, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -12,6 +12,7 @@ import { ThemeToggle } from '@/components/ui/theme-toggle';
 
 const navItems = [
   { label: 'Home', href: '/', icon: Home },
+  { label: 'Seized Vehicles (AI)', href: '/automobiles/seized', icon: Gavel },
   { label: 'About', href: '/about', icon: ShieldCheck },
 ];
 

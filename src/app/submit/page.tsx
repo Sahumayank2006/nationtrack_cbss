@@ -116,8 +116,7 @@ export default function SubmitPage() {
           return;
         }
 
-        const toBookingDateTime = (value: string) =>
-          value.length === 16 ? `${value}:00` : value;
+        const toBookingDateTime = (value: string) => (value.length === 16 ? `${value}:00` : value);
         const startDateTime = toBookingDateTime(form.startTime);
         const endDateTime = toBookingDateTime(form.endTime);
 

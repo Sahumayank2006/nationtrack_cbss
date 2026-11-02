@@ -163,7 +163,9 @@ export default function AdminSpacesRequestsInboxPage() {
                   Requester: {booking.bookedByName} ({booking.bookedBy})
                 </p>
                 <p className="text-sm text-muted-foreground">Purpose: {booking.purpose}</p>
-                <p className="text-sm text-muted-foreground">Attendees: {booking.expectedAttendees}</p>
+                <p className="text-sm text-muted-foreground">
+                  Attendees: {booking.expectedAttendees}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {formatBookingDateTime(booking.startDateTime)} -{' '}
                   {formatBookingDateTime(booking.endDateTime)}

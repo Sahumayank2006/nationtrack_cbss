@@ -77,7 +77,10 @@ export default function SpacesBookingsPage() {
         return;
       }
 
-      const bookingsQuery = firestoreQuery(collection(db, 'bookings'), where('bookedBy', '==', uid));
+      const bookingsQuery = firestoreQuery(
+        collection(db, 'bookings'),
+        where('bookedBy', '==', uid)
+      );
       unsubscribe = onSnapshot(bookingsQuery, (snapshot) => {
         const next = snapshot.docs
           .map((docSnap) => {
@@ -101,15 +104,15 @@ export default function SpacesBookingsPage() {
               startDateTime: startRaw,
               endDateTime: endRaw,
               createdAt:
-                typeof data.createdAt === 'string'
-                  ? data.createdAt
-                  : new Date().toISOString(),
+                typeof data.createdAt === 'string' ? data.createdAt : new Date().toISOString(),
               approvedBy: (data.approvedBy as string) ?? undefined,
               rejectedReason: (data.rejectedReason as string) ?? undefined,
               organizationName: (data.organizationName as string) ?? undefined,
             } satisfies FirebaseBooking;
           })
-          .sort((a, b) => (a.createdAt && b.createdAt ? b.createdAt.localeCompare(a.createdAt) : 0));
+          .sort((a, b) =>
+            a.createdAt && b.createdAt ? b.createdAt.localeCompare(a.createdAt) : 0
+          );
 
         setBookings(next);
         setLoadMessage('');
@@ -127,15 +130,15 @@ export default function SpacesBookingsPage() {
     return bookings.filter((booking) => {
       const statusMatch = tabStatuses[tab].includes(booking.status as BookingStatus);
       if (!statusMatch) return false;
-        if (!searchQuery.trim()) return true;
-        const text = searchQuery.toLowerCase();
+      if (!searchQuery.trim()) return true;
+      const text = searchQuery.toLowerCase();
       return (
         booking.bookingId.toLowerCase().includes(text) ||
         booking.purpose.toLowerCase().includes(text) ||
-          (booking.assetId ?? '').toLowerCase().includes(text)
+        (booking.assetId ?? '').toLowerCase().includes(text)
       );
     });
-    }, [bookings, searchQuery, tab]);
+  }, [bookings, searchQuery, tab]);
 
   return (
     <main id="maincontent" className="container-wide space-y-5 py-8">

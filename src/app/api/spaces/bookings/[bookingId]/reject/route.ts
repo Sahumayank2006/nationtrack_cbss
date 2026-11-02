@@ -12,7 +12,10 @@ export async function PATCH(request: Request, { params }: Props) {
   const body = (await request.json()) as { reason?: string; actorName?: string };
   const session = getSessionContext(request);
   if (!session) {
-    return NextResponse.json({ success: false, message: 'Authentication required' }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: 'Authentication required' },
+      { status: 401 }
+    );
   }
 
   if (!body.reason?.trim()) {

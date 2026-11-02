@@ -1,6 +1,13 @@
 'use client';
 
-import { collection, doc, query as firestoreQuery, onSnapshot, updateDoc, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  query as firestoreQuery,
+  onSnapshot,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { Check, Search, X } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -169,14 +176,14 @@ export default function SpacesIncomingRequestsPage() {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="font-semibold text-foreground">{booking.bookingId}</p>
-                <p className="text-sm text-muted-foreground">
-                  Space: {booking.spaceName}
-                </p>
+                <p className="text-sm text-muted-foreground">Space: {booking.spaceName}</p>
                 <p className="text-sm text-muted-foreground">
                   Requester: {booking.bookedByName} ({booking.bookedBy})
                 </p>
                 <p className="text-sm text-muted-foreground">Purpose: {booking.purpose}</p>
-                <p className="text-sm text-muted-foreground">Attendees: {booking.expectedAttendees}</p>
+                <p className="text-sm text-muted-foreground">
+                  Attendees: {booking.expectedAttendees}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {formatBookingDateTime(booking.startDateTime)} -{' '}
                   {formatBookingDateTime(booking.endDateTime)}

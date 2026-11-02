@@ -12,7 +12,10 @@ export async function PATCH(request: Request, { params }: Props) {
   const body = (await request.json().catch(() => ({}))) as { approverName?: string };
   const session = getSessionContext(request);
   if (!session) {
-    return NextResponse.json({ success: false, message: 'Authentication required' }, { status: 401 });
+    return NextResponse.json(
+      { success: false, message: 'Authentication required' },
+      { status: 401 }
+    );
   }
 
   try {
@@ -24,7 +27,8 @@ export async function PATCH(request: Request, { params }: Props) {
       return NextResponse.json({ success: false, message: 'Booking not found' }, { status: 404 });
     }
 
-    const approvedBy = body.approverName ?? session?.openSpaceName ?? session?.name ?? 'Admin Panel';
+    const approvedBy =
+      body.approverName ?? session?.openSpaceName ?? session?.name ?? 'Admin Panel';
     await bookingRef.update({
       status: 'APPROVED',
       approvedBy,

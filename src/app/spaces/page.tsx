@@ -1,11 +1,6 @@
 'use client';
 
-import {
-    ArrowLeft,
-    ChevronLeft,
-    ChevronRight,
-    Search
-} from 'lucide-react';
+import { ArrowLeft, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';

@@ -2,20 +2,20 @@ import { createHash } from 'crypto';
 
 import type { AdminPendingAction, AdminRecentEvent, AdminSummary } from '@/types/admin';
 import type {
-    AvailabilitySlot,
-    Booking,
-    BookingPurposeBreakdown,
-    BookingStatus,
-    CreateBookingPayload,
-    IdleSuggestion,
-    MaintenanceTicket,
-    Space,
-    SpaceEvent,
-    SpaceListFilters,
-    SpaceMapFeatureCollection,
-    SpaceSummaryRow,
-    SpaceType,
-    UtilizationPoint,
+  AvailabilitySlot,
+  Booking,
+  BookingPurposeBreakdown,
+  BookingStatus,
+  CreateBookingPayload,
+  IdleSuggestion,
+  MaintenanceTicket,
+  Space,
+  SpaceEvent,
+  SpaceListFilters,
+  SpaceMapFeatureCollection,
+  SpaceSummaryRow,
+  SpaceType,
+  UtilizationPoint,
 } from '@/types/spaces';
 
 const DAY_MS = 24 * 60 * 60 * 1000;

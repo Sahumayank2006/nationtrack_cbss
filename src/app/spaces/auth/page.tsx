@@ -1,11 +1,6 @@
 'use client';
 
-import {
-    getIdToken,
-    signInWithEmailAndPassword,
-    signOut,
-    updateProfile
-} from 'firebase/auth';
+import { getIdToken, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { Building2, Loader2, LogIn, UserPlus } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useMemo, useState } from 'react';
@@ -124,7 +119,11 @@ export default function SpacesAuthPage() {
         return;
       }
 
-      const credentials = await signInWithEmailAndPassword(auth, signupEmail.trim(), signupPassword);
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        signupEmail.trim(),
+        signupPassword
+      );
       await updateProfile(credentials.user, { displayName: name.trim() });
       const idToken = await getIdToken(credentials.user, true);
 
@@ -136,7 +135,9 @@ export default function SpacesAuthPage() {
 
       const loginPayload = (await loginResponse.json()) as AuthResponse;
       if (!loginResponse.ok || !loginPayload.ok) {
-        setStatus(loginPayload.message ?? 'Account created but auto sign-in failed. Please sign in.');
+        setStatus(
+          loginPayload.message ?? 'Account created but auto sign-in failed. Please sign in.'
+        );
         return;
       }
 
@@ -171,7 +172,13 @@ export default function SpacesAuthPage() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Image src="/NationTrack.png" alt="NationTrack logo" width={40} height={40} priority />
+              <Image
+                src="/NationTrack.png"
+                alt="NationTrack logo"
+                width={40}
+                height={40}
+                priority
+              />
               <h1 className="text-2xl font-bold">NationTrack Spaces</h1>
             </div>
 
@@ -202,9 +209,7 @@ export default function SpacesAuthPage() {
               <button
                 type="button"
                 className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  mode === 'login'
-                    ? 'bg-slate-900 text-white'
-                    : 'text-slate-700 hover:bg-slate-200'
+                  mode === 'login' ? 'bg-slate-900 text-white' : 'text-slate-700 hover:bg-slate-200'
                 }`}
                 onClick={() => setMode('login')}
               >
@@ -226,7 +231,10 @@ export default function SpacesAuthPage() {
             {mode === 'login' ? (
               <form className="space-y-4" onSubmit={handleLogin}>
                 <div>
-                  <label htmlFor="login-email" className="mb-1.5 block text-sm font-medium text-slate-900">
+                  <label
+                    htmlFor="login-email"
+                    className="mb-1.5 block text-sm font-medium text-slate-900"
+                  >
                     Email address
                   </label>
                   <Input
@@ -241,7 +249,10 @@ export default function SpacesAuthPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="login-password" className="mb-1.5 block text-sm font-medium text-slate-900">
+                  <label
+                    htmlFor="login-password"
+                    className="mb-1.5 block text-sm font-medium text-slate-900"
+                  >
                     Password
                   </label>
                   <Input
@@ -263,7 +274,10 @@ export default function SpacesAuthPage() {
             ) : (
               <form className="space-y-4" onSubmit={handleSignup}>
                 <div>
-                  <label htmlFor="signup-name" className="mb-1.5 block text-sm font-medium text-slate-900">
+                  <label
+                    htmlFor="signup-name"
+                    className="mb-1.5 block text-sm font-medium text-slate-900"
+                  >
                     Full name
                   </label>
                   <Input

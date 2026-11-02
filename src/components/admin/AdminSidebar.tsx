@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   LogOut,
   Settings,
+  Shield,
   TrendingUp,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -28,6 +29,7 @@ const AUTOMOBILE_NAV_ITEMS = [
   { label: 'Requests Inbox', href: '/admin/automobiles/requests-inbox', icon: Inbox },
   { label: 'Bookings Calendar', href: '/admin/automobiles/bookings-calendar', icon: Calendar },
   { label: 'Idle Pool', href: '/admin/automobiles/idle-pool', icon: Archive },
+  { label: 'Seized Vehicles AI', href: '/automobiles/seized', icon: Shield },
   { label: 'Auction Queue', href: '/admin/automobiles/auction-queue', icon: TrendingUp },
   { label: 'Maintenance', href: '/admin/automobiles/maintenance', icon: Hammer },
   { label: 'Compliance', href: '/admin/automobiles/compliance', icon: AlertCircle },

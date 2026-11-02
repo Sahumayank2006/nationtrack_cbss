@@ -42,22 +42,19 @@ export async function POST(request: Request) {
       disabled: false,
     });
 
-    await getAdminDb()
-      .collection('space_users')
-      .doc(createdUser.uid)
-      .set(
-        {
-          uid: createdUser.uid,
-          name: payload.name,
-          email: payload.email,
-          openSpaceId: matchedSpace.id,
-          openSpaceName: matchedSpace.name,
-          role: 'SPACE_ADMIN',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        { merge: true }
-      );
+    await getAdminDb().collection('space_users').doc(createdUser.uid).set(
+      {
+        uid: createdUser.uid,
+        name: payload.name,
+        email: payload.email,
+        openSpaceId: matchedSpace.id,
+        openSpaceName: matchedSpace.name,
+        role: 'SPACE_ADMIN',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      { merge: true }
+    );
 
     return NextResponse.json({
       ok: true,

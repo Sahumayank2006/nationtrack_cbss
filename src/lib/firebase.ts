@@ -51,4 +51,7 @@ export const auth = app ? getAuth(app) : ({} as any);
 export const db = app ? getFirestore(app) : ({} as any);
 export const storage = app ? getStorage(app) : ({} as any);
 export const isFirebaseReady = Boolean(app);
+export const missingFirebaseClientKeys = requiredKeys.filter(
+  (k) => !firebaseConfig[k as keyof typeof firebaseConfig]
+);
 export default app;
