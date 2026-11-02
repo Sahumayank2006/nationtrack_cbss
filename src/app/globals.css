@@ -1,0 +1,582 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* NationTrack Design System - Institutional Operations Platform */
+
+@layer base {
+  :root {
+    /* Core backgrounds */
+    --background: 210 15% 97%;
+    --foreground: 220 20% 10%;
+
+    /* Cards and surfaces */
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 10%;
+
+    /* Popovers */
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 10%;
+
+    /* Primary - Azure 600 */
+    --primary: 220 47% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Muted blue-gray */
+    --secondary: 210 12% 92%;
+    --secondary-foreground: 220 20% 15%;
+
+    /* Muted surfaces */
+    --muted: 210 12% 94%;
+    --muted-foreground: 220 12% 38%;
+
+    /* Accent */
+    --accent: 215 40% 94%;
+    --accent-foreground: 215 55% 28%;
+
+    /* Destructive */
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and inputs */
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 220 47% 53%;
+
+    --radius: 0.375rem;
+
+    /* Status colors */
+    --status-live: 145 40% 42%;
+    --status-live-bg: 145 40% 94%;
+    --status-dev: 35 70% 50%;
+    --status-dev-bg: 35 70% 94%;
+    --status-archived: 220 10% 55%;
+    --status-archived-bg: 220 10% 93%;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 12%;
+    --sidebar-primary: 215 55% 32%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 15% 95%;
+    --sidebar-accent-foreground: 220 15% 12%;
+    --sidebar-border: 210 15% 90%;
+    --sidebar-ring: 215 55% 32%;
+
+    /* Typography: set via next/font in layout */
+    /* Brand gradient */
+    --brand-blue: 211 85% 30%;
+    --brand-gold: 45 91% 54%;
+    --brand-dark: 222 12% 18%;
+  }
+
+  .dark {
+    --background: 220 15% 8%;
+    --foreground: 210 20% 95%;
+
+    --card: 220 15% 10%;
+    --card-foreground: 210 20% 95%;
+
+    --popover: 220 15% 10%;
+    --popover-foreground: 210 20% 95%;
+
+    --primary: 220 60% 62%;
+    --primary-foreground: 220 15% 8%;
+
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 210 20% 90%;
+
+    --muted: 220 15% 15%;
+    --muted-foreground: 210 15% 60%;
+
+    --accent: 220 15% 18%;
+    --accent-foreground: 215 50% 65%;
+
+    --destructive: 0 60% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 220 60% 62%;
+
+    --status-live: 145 40% 50%;
+    --status-live-bg: 145 30% 15%;
+    --status-dev: 35 60% 55%;
+    --status-dev-bg: 35 40% 15%;
+    --status-archived: 220 10% 50%;
+    --status-archived-bg: 220 10% 18%;
+
+    --sidebar-background: 220 15% 10%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 215 50% 55%;
+    --sidebar-primary-foreground: 220 15% 8%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 210 20% 95%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 215 50% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .container-narrow {
+    @apply mx-auto max-w-5xl px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto max-w-7xl px-6;
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .card-elevated {
+    @apply rounded-lg border border-border bg-card shadow-sm;
+  }
+
+  .text-balance {
+    /* Progressive enhancement for text wrapping */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  /* Chrome 114+, Edge 114+ */
+  @supports (text-wrap: balance) {
+    .text-balance {
+      text-wrap: balance;
+    }
+  }
+
+  /* Brand gradient backgrounds */
+  .gradient-brand {
+    background-image: linear-gradient(-20deg, #b721ff 0%, #21d4fd 100%);
+  }
+
+  .gradient-overlay {
+    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  }
+
+  .gradient-radial {
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  }
+
+  /* Hero effects */
+  .hero-beam-effect {
+    background-image:
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(0, 126, 255, 0.95) 32%,
+        rgba(0, 85, 200, 0.8) 52%,
+        transparent 75%
+      ),
+      linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(18, 104, 220, 0.55) 40%,
+        rgba(5, 70, 165, 0.55) 60%,
+        transparent 82%
+      );
+    filter: blur(10px);
+    transform: scale(1.25);
+    transform-origin: center;
+  }
+
+  .hero-grid-overlay {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.14) 0,
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+    mix-blend-mode: screen;
+    filter: blur(0.3px);
+  }
+
+  .hero-grain-texture {
+    background-image:
+      radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.25), transparent),
+      radial-gradient(1px 1px at 30% 40%, rgba(255, 255, 255, 0.18), transparent),
+      radial-gradient(1px 1px at 70% 60%, rgba(255, 255, 255, 0.2), transparent),
+      radial-gradient(1px 1px at 90% 10%, rgba(255, 255, 255, 0.16), transparent),
+      radial-gradient(1px 1px at 50% 80%, rgba(255, 255, 255, 0.14), transparent);
+    background-repeat: repeat;
+    background-size: 120px 120px;
+  }
+
+  .hero-dynamic-contrast {
+    color: #ffffff;
+    mix-blend-mode: difference;
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.35),
+      0 0 1px rgba(0, 0, 0, 0.3);
+    transition:
+      color 280ms ease,
+      text-shadow 280ms ease,
+      opacity 280ms ease;
+    will-change: color, text-shadow;
+  }
+
+  .hero-dynamic-contrast-strong {
+    text-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.35),
+      0 1px 1px rgba(0, 0, 0, 0.35);
+  }
+
+  @supports not (mix-blend-mode: difference) {
+    .hero-dynamic-contrast {
+      color: #0f172a;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  /* Animation delays */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .edge-rails-wrapper {
+    @apply relative;
+    margin-top: -14px;
+    padding-top: 14px;
+  }
+
+  .edge-rail-left,
+  .edge-rail-right {
+    @apply pointer-events-none absolute inset-y-0 z-30;
+    width: 8px;
+    background: repeating-linear-gradient(
+      to bottom,
+      #ff9933 0 16px,
+      #ffffff 16px 32px,
+      #138808 32px 48px
+    );
+    box-shadow:
+      inset 0 0 0 1px rgba(15, 23, 42, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.35);
+  }
+
+  .edge-rail-left {
+    left: 0;
+    border-right: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .edge-rail-right {
+    right: 0;
+    border-left: 1px solid rgba(15, 23, 42, 0.12);
+  }
+
+  .edge-rail-left::before,
+  .edge-rail-right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 9px;
+    background-size: 9px 18px;
+    opacity: 0.98;
+    background-image: repeating-conic-gradient(
+      from 45deg at 0 9px,
+      #ff9933 0 25%,
+      #ffffff 25% 50%,
+      #138808 50% 75%,
+      #ffffff 75% 100%
+    );
+  }
+
+  .edge-rail-left::before {
+    right: -9px;
+  }
+
+  .edge-rail-right::before {
+    left: -9px;
+    transform: scaleX(-1);
+    transform-origin: center;
+  }
+
+  @media (min-width: 768px) {
+    .edge-rail-left,
+    .edge-rail-right {
+      width: 12px;
+    }
+
+    .edge-rail-left::before,
+    .edge-rail-right::before {
+      width: 10px;
+      background-size: 10px 20px;
+    }
+
+    .edge-rail-left::before {
+      right: -10px;
+    }
+
+    .edge-rail-right::before {
+      left: -10px;
+    }
+  }
+
+  .nt-map-canvas {
+    height: clamp(520px, calc(100vh - 160px), 820px);
+    width: 100%;
+  }
+
+  .nt-vehicle-pin-wrapper {
+    background: transparent;
+    border: 0;
+  }
+
+  .nt-vehicle-pin {
+    display: inline-flex;
+    height: 24px;
+    width: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: var(--pin-color);
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.32);
+    color: #ffffff;
+    position: relative;
+  }
+
+  .nt-vehicle-pin-lg {
+    height: 34px;
+    width: 34px;
+    border-width: 3px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.34);
+  }
+
+  .nt-vehicle-glyph {
+    height: 12px;
+    width: 12px;
+  }
+
+  .nt-vehicle-pin-lg .nt-vehicle-glyph {
+    height: 16px;
+    width: 16px;
+  }
+
+  .nt-vehicle-pin::after {
+    content: '';
+    position: absolute;
+    height: 34px;
+    width: 34px;
+    border-radius: 9999px;
+    border: 2px solid color-mix(in srgb, var(--pin-color), transparent 50%);
+    animation: nt-pin-pulse 2.8s ease-out infinite;
+    opacity: 0.62;
+  }
+
+  .nt-vehicle-pin-lg::after {
+    height: 44px;
+    width: 44px;
+  }
+
+  .nt-police-station-icon-wrapper {
+    background: transparent;
+    border: 0;
+  }
+
+  .nt-police-station-marker {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    pointer-events: none;
+  }
+
+  .nt-police-station-pin {
+    display: inline-flex;
+    height: 50px;
+    width: 42px;
+  }
+
+  .nt-police-station-svg {
+    height: 50px;
+    width: 42px;
+    display: block;
+  }
+
+  .nt-police-station-label {
+    margin-bottom: 6px;
+    padding: 3px 7px;
+    border-radius: 10px;
+    border: 1px solid rgba(15, 23, 42, 0.15);
+    background: rgba(255, 255, 255, 0.96);
+    color: #0f172a;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 120px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+    transition: opacity 150ms ease;
+  }
+
+  .nt-police-station-label-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .dark .nt-police-station-label {
+    border-color: rgba(148, 163, 184, 0.45);
+    background: rgba(15, 23, 42, 0.9);
+    color: #e2e8f0;
+  }
+
+  .nt-gwalior-boundary-glow {
+    animation: nt-boundary-breathe 4.8s ease-in-out infinite;
+  }
+
+  .nt-gwalior-boundary-outline {
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation:
+      nt-boundary-snake 6s linear infinite,
+      nt-boundary-breathe 4.8s ease-in-out infinite;
+  }
+
+  .dark .nt-gwalior-boundary-glow {
+    stroke: #60a5fa;
+    opacity: 0.22;
+  }
+
+  .dark .nt-gwalior-boundary-outline {
+    stroke: #93c5fd;
+    fill: #3b82f6;
+    fill-opacity: 0.03;
+  }
+
+  @keyframes nt-boundary-snake {
+    from {
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dashoffset: -44;
+    }
+  }
+
+  @keyframes nt-boundary-breathe {
+    0%,
+    100% {
+      opacity: 0.45;
+    }
+    50% {
+      opacity: 0.82;
+    }
+  }
+
+  .nt-cluster-icon {
+    background: transparent;
+    border: 0;
+  }
+
+  .nt-cluster-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 2px solid rgba(37, 99, 235, 0.55);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+    backdrop-filter: blur(3px);
+  }
+
+  .dark .nt-cluster-badge {
+    border-color: rgba(96, 165, 250, 0.6);
+    background: rgba(15, 23, 42, 0.86);
+    box-shadow: 0 10px 26px rgba(2, 6, 23, 0.45);
+  }
+
+  .nt-cluster-sm {
+    height: 34px;
+    width: 34px;
+  }
+
+  .nt-cluster-md {
+    height: 40px;
+    width: 40px;
+  }
+
+  .nt-cluster-lg {
+    height: 46px;
+    width: 46px;
+  }
+
+  .nt-cluster-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1d4ed8;
+    line-height: 1;
+  }
+
+  .dark .nt-cluster-count {
+    color: #bfdbfe;
+  }
+
+  @keyframes nt-pin-pulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.95;
+    }
+    100% {
+      transform: scale(1.45);
+      opacity: 0;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
