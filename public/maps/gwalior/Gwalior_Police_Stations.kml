@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Gwalior Police Stations</name>
+    <description>All Police Stations in Gwalior District, Madhya Pradesh</description>
+    <Style id="policeIcon">
+      <IconStyle>
+        <color>ff0000ff</color>
+        <scale>1.2</scale>
+        <Icon>
+          <href>http://maps.google.com/mapfiles/kml/shapes/police.png</href>
+        </Icon>
+      </IconStyle>
+      <LabelStyle>
+        <scale>0.9</scale>
+      </LabelStyle>
+    </Style>
+    <Placemark>
+      <name>Kotwali Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.1828,26.2183,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Madhoganj Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.176,26.215,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Janakganj Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.19,26.221,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>University Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.168,26.231,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Kampoo Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.195,26.205,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Tighra Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.22,26.28,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Inderganj Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.181,26.212,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Jhansi Road Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.17,26.195,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Padav Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.205,26.209,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Gwalior Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.1828,26.2183,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bahodapur Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.21,26.19,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Purani Chhawni Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.2,26.23,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Mahila Thana Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.185,26.217,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Morar Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.23,26.24,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Thatipur Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.16,26.2,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Maharajpura Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.26,26.26,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Hazira Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.2,26.18,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Gola Ka Mandir Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.19,26.205,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Dabra City Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.33,25.89,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Dabra Dehat Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.34,25.88,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Antri Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.07,26.06,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Pichhore Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.38,25.98,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bilaua Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.4,25.92,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Gijorra Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.36,25.95,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bhitarwar Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.12,25.8,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Karahiya Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.15,25.78,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Chinor Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.09,25.76,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Belgada Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.06,25.74,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Ghatigaon Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.47,26.0,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Panihar Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.52,26.03,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Aron Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.55,25.96,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Mohana Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.58,26.01,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bhawarpura Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.51,25.98,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Behat Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.42,26.27,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Bijoli Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.45,26.3,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Utila Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.48,26.32,0</coordinates>
+      </Point>
+    </Placemark>
+    <Placemark>
+      <name>Hastinapur Police Station</name>
+      <styleUrl>#policeIcon</styleUrl>
+      <Point>
+        <coordinates>78.4,26.29,0</coordinates>
+      </Point>
+    </Placemark>
+  </Document>
+</kml>
