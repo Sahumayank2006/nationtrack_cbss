@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Option A: custom claim `role = admin`
+    function isAdminByClaim() {
+      return isSignedIn() && (request.auth.token.role == 'admin');
+    }
+
+    // Option B: email allowlist (replace with your admin emails)
+    function isAdminByEmail() {
+      return isSignedIn() && request.auth.token.email in [
+        "operations@nationtrack.gov"
+      ];
+    }
+
+    function isAdmin() {
+      return isAdminByClaim() || isAdminByEmail();
+    }
+
+    // Asset passports are displayed publicly and managed by admins.
+    match /asset_passports/{assetId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Booking requests can be submitted publicly; admin manages lifecycle updates.
+    match /bookings/{bookingId} {
+      allow read: if true;
+      allow create: if request.resource.data.status == 'PENDING';
+      allow update, delete: if isAdmin();
+    }
+
+    // Audit records are visible for transparency; writes are admin/system only.
+    match /audit_logs/{entryId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}
