@@ -1,3 +1,4 @@
+import syntheticDataRaw from '@/data/synthetic_data.json';
 import { GWALIOR_POLICE_STATIONS, type PoliceStationPoint } from '@/lib/gwalior-police-stations';
 
 import type { AdminPendingAction, AdminRecentEvent, AdminSummary } from '@/types/admin';
@@ -28,6 +29,7 @@ import type {
   VehicleMetadata,
   VehicleOperationalStatus,
 } from '@/types/automobiles';
+import type { SyntheticVehicleRecord } from '@/types/seized-agent';
 
 const GWALIOR_CENTER: GeoPoint = { lat: 26.2183, lng: 78.1828 };
 
@@ -179,9 +181,85 @@ const createSeedVehicle = (
   };
 };
 
-let inMemoryVehicles: AutomobileAsset[] = STATION_VEHICLE_PLAN.map((plan, i) =>
-  createSeedVehicle(i, plan.station, plan.slotIndex, plan.seed)
+const createAssetFromSyntheticRecord = (
+  record: SyntheticVehicleRecord,
+  index: number
+): AutomobileAsset => {
+  const stationMatch =
+    GWALIOR_POLICE_STATIONS.find(
+      (s) =>
+        record.police_station
+          .toLowerCase()
+          .includes(s.name.toLowerCase().replace(' police station', '')) ||
+        s.name
+          .toLowerCase()
+          .includes(record.police_station.toLowerCase().replace(' police station', ''))
+    ) || GWALIOR_POLICE_STATIONS[index % GWALIOR_POLICE_STATIONS.length];
+
+  const coords = getParkedCoordinate(stationMatch, index + 1, hashString(record.vehicle_no));
+  const idleDays = Math.max(
+    14,
+    Math.round(
+      (new Date('2026-11-02').getTime() - new Date(record.seizure_date).getTime()) /
+        (1000 * 60 * 60 * 24)
+    )
+  );
+
+  return {
+    id: `cctns-${record.vehicle_no.toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+    registrationNumber: record.vehicle_no,
+    displayName: `${record.make_model} [${record.bns_section}] | ${stationMatch.name}`,
+    sector: 'POLICE_PATROL',
+    vehicleType: `Seized ${record.type}`,
+    driverName: record.owner_known === 'yes' ? 'Owner Known' : 'Owner Unknown',
+    departmentName: `${record.police_station} (Seized Case Pool)`,
+    locationLabel: stationMatch.name,
+    status:
+      record.released === 'yes'
+        ? 'MOVING'
+        : record.court_order_type === 'sale'
+          ? 'BREAKDOWN'
+          : 'IDLE',
+    isMoving: false,
+    speedKmph: 0,
+    heading: (index * 43) % 360,
+    coordinates: coords,
+    lastSeenAt: new Date(Date.now() - (index % 12) * 60000).toISOString(),
+    idleMinutes: idleDays * 1440,
+    idleSinceDate: record.seizure_date,
+    gpsSource: 'MANUAL_CSV',
+    compliance: {
+      pucExpiry: toIsoDate(-Math.max(10, index % 220)),
+      insuranceExpiry: toIsoDate(-Math.max(12, index % 260)),
+      fitnessExpiry: toIsoDate(-Math.max(15, index % 300)),
+    },
+    utilization: {
+      hoursToday: 0,
+      hoursWeek: 0,
+      idlePercent: 100,
+    },
+    maintenanceRiskScore: record.est_value < 10000 ? 95 : 45 + (index % 10) * 4,
+    photoUrl: '/NationTrack-placeholder.jpg',
+    specs: {
+      fuelType: record.type.toLowerCase().includes('motorcycle') ? 'Petrol' : 'Diesel',
+      capacity: `Value: ₹${record.est_value.toLocaleString('en-IN')}`,
+      model: `${record.make_model} (${record.fir_no})`,
+      year: 2021,
+    },
+    pathTrail24h: buildTrail(coords, index),
+  };
+};
+
+const syntheticAssets: AutomobileAsset[] = (syntheticDataRaw as SyntheticVehicleRecord[]).map(
+  (rec, i) => createAssetFromSyntheticRecord(rec, i)
 );
+
+let inMemoryVehicles: AutomobileAsset[] = [
+  ...syntheticAssets,
+  ...STATION_VEHICLE_PLAN.map((plan, i) =>
+    createSeedVehicle(i, plan.station, plan.slotIndex, plan.seed)
+  ),
+];
 
 const inMemoryTrips: TripLog[] = inMemoryVehicles.flatMap((vehicle, i) => {
   const firstPath = vehicle.pathTrail24h.slice(0, 12);
@@ -287,6 +365,41 @@ const buildVehicleMetadata = (vehicle: AutomobileAsset): VehicleMetadata => {
 };
 
 const buildLegalRecords = (vehicle: AutomobileAsset): LegalRecord[] => {
+  const syntheticMatch = (syntheticDataRaw as SyntheticVehicleRecord[]).find(
+    (s) => s.vehicle_no.toUpperCase() === vehicle.registrationNumber.toUpperCase()
+  );
+
+  if (syntheticMatch) {
+    const records: LegalRecord[] = [
+      {
+        id: `legal-${vehicle.id}-seizure`,
+        vehicleId: vehicle.id,
+        type: 'SEIZURE',
+        referenceNumber: syntheticMatch.fir_no,
+        date: syntheticMatch.seizure_date,
+        description: `${syntheticMatch.case_type} under ${syntheticMatch.bns_section}. Special Law: ${syntheticMatch.special_law}.`,
+        status: syntheticMatch.released === 'yes' ? 'RESOLVED' : 'ACTIVE',
+        amount: syntheticMatch.est_value,
+        authority: syntheticMatch.police_station,
+      },
+    ];
+
+    if (syntheticMatch.court_order_date) {
+      records.push({
+        id: `legal-${vehicle.id}-court-order`,
+        vehicleId: vehicle.id,
+        type: 'COURT_CASE',
+        referenceNumber: `ORDER-${syntheticMatch.court_order_type.toUpperCase()}`,
+        date: syntheticMatch.court_order_date,
+        description: `Judicial Order: ${syntheticMatch.court_order_type} issued. Appeal expired: ${syntheticMatch.appeal_period_expired ? 'Yes' : 'No'}.`,
+        status: syntheticMatch.court_order_type === 'confiscation' ? 'RESOLVED' : 'ACTIVE',
+        authority: 'Judicial Magistrate / Special Court',
+      });
+    }
+
+    return records;
+  }
+
   const seed = hashString(vehicle.id);
   const challanDate = new Date();
   challanDate.setDate(challanDate.getDate() - (seed % 40) - 5);

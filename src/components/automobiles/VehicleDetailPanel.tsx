@@ -12,6 +12,7 @@ import {
   X,
   XCircle,
 } from 'lucide-react';
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Badge } from '@/components/ui/badge';
@@ -126,13 +127,24 @@ export function VehicleDetailPanel({
               {vehicle.displayName}
             </h2>
             <p className="font-mono text-xs text-muted-foreground">{vehicle.registrationNumber}</p>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <Badge variant="outline" className="rounded-full">
                 {vehicle.status}
               </Badge>
               <Badge variant="outline" className="rounded-full">
                 {vehicle.metadata.assignedStation}
               </Badge>
+              <Link
+                href={`/automobiles/seized?vehicle=${encodeURIComponent(vehicle.registrationNumber)}`}
+              >
+                <Button
+                  size="sm"
+                  className="h-6 gap-1 bg-primary px-2.5 text-[11px] font-semibold text-primary-foreground hover:bg-primary/90"
+                >
+                  <Shield className="h-3 w-3" />
+                  AI Legal Agent
+                </Button>
+              </Link>
             </div>
           </div>
           <Button variant="ghost" size="icon" aria-label="Close panel" onClick={onClose}>

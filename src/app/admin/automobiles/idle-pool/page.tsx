@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, Badge, Clock, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
 
 import { useAdminContext } from '@/app/admin/AdminContext';
 import { Button } from '@/components/ui/button';
@@ -72,11 +73,19 @@ export default function IdlePoolPage() {
 
   return (
     <div className="space-y-6 p-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Idle & Seized Pool</h1>
-        <p className="mt-2 text-muted-foreground">
-          Vehicles idle for 6+ months - candidates for redeployment or auction
-        </p>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Idle & Seized Pool</h1>
+          <p className="mt-2 text-muted-foreground">
+            Vehicles idle for 6+ months - candidates for redeployment or auction
+          </p>
+        </div>
+        <Link href="/automobiles/seized">
+          <Button className="gap-2 bg-primary font-semibold text-primary-foreground">
+            <RefreshCw className="h-4 w-4" />
+            Launch AI Legal Agent (BNSS/CCTNS)
+          </Button>
+        </Link>
       </div>
 
       {/* Stats */}

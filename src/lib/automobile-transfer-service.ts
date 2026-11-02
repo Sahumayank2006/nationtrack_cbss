@@ -1,27 +1,27 @@
 import {
-    addDoc,
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    limit,
-    orderBy,
-    query,
-    runTransaction,
-    serverTimestamp,
-    setDoc,
-    Timestamp,
-    updateDoc,
-    where,
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  runTransaction,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  where,
 } from 'firebase/firestore';
 
 import { db } from '@/lib/firebase';
 import type {
-    AutomobileStationAccount,
-    AutomobileTransferRequest,
-    StationFleetInventory,
-    VehicleInventoryByType,
-    VehicleInventoryKey,
+  AutomobileStationAccount,
+  AutomobileTransferRequest,
+  StationFleetInventory,
+  VehicleInventoryByType,
+  VehicleInventoryKey,
 } from '@/types/automobiles';
 
 const TRANSFER_REQUESTS_COLLECTION = 'automobile_transfer_requests';
@@ -126,7 +126,9 @@ const transferDocRef = (requestId: string) => doc(db, TRANSFER_REQUESTS_COLLECTI
 
 const transferCollectionRef = () => collection(db, TRANSFER_REQUESTS_COLLECTION);
 
-const normalizeInventoryInput = (requestedByType: VehicleInventoryByType): VehicleInventoryByType => {
+const normalizeInventoryInput = (
+  requestedByType: VehicleInventoryByType
+): VehicleInventoryByType => {
   return {
     PATROL_CAR: Math.max(0, Math.trunc(requestedByType.PATROL_CAR || 0)),
     MOTORCYCLE: Math.max(0, Math.trunc(requestedByType.MOTORCYCLE || 0)),
@@ -154,13 +156,17 @@ export async function getStationFleetInventory(
       updatedAt: nowIso,
     };
 
-    await setDoc(fleetDocRef(stationId), {
-      stationId,
-      stationName,
-      availableByType: fallback.availableByType,
-      updatedAt: nowIso,
-      updatedAtServer: serverTimestamp(),
-    }, { merge: true });
+    await setDoc(
+      fleetDocRef(stationId),
+      {
+        stationId,
+        stationName,
+        availableByType: fallback.availableByType,
+        updatedAt: nowIso,
+        updatedAtServer: serverTimestamp(),
+      },
+      { merge: true }
+    );
 
     return fallback;
   }
@@ -220,11 +226,7 @@ export async function listTransferRequestsForAccount(
   const nowIso = new Date().toISOString();
 
   if (account.role === 'ADMIN') {
-    const adminQuery = query(
-      transferCollectionRef(),
-      orderBy('createdAt', 'desc'),
-      limit(300)
-    );
+    const adminQuery = query(transferCollectionRef(), orderBy('createdAt', 'desc'), limit(300));
     const snapshot = await getDocs(adminQuery);
     return snapshot.docs.map((entry) =>
       mapTransferRequest(entry.id, entry.data() as Record<string, unknown>, nowIso)

@@ -1,20 +1,20 @@
 'use client';
 
 import {
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    signOut,
-    updateProfile,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
 } from 'firebase/auth';
 import {
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    query,
-    serverTimestamp,
-    setDoc,
-    where,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  setDoc,
+  where,
 } from 'firebase/firestore';
 import { Building2, LogIn, UserPlus } from 'lucide-react';
 import Link from 'next/link';
@@ -77,7 +77,9 @@ export default function AutomobilesAuthPage() {
         : undefined;
       if (!accountDoc || accountDoc.stationId !== loginStationId) {
         await signOut(auth);
-        setError('Selected station does not match this account. Please choose the correct station.');
+        setError(
+          'Selected station does not match this account. Please choose the correct station.'
+        );
         return;
       }
 
@@ -142,23 +144,28 @@ export default function AutomobilesAuthPage() {
         updatedAtServer: serverTimestamp(),
       });
 
-      await setDoc(doc(db, 'station_fleet', selectedStation.id), {
-        stationId: selectedStation.id,
-        stationName: selectedStation.name,
-        availableByType: {
-          PATROL_CAR: 20,
-          MOTORCYCLE: 12,
-          VAN: 6,
-          HEAVY: 4,
+      await setDoc(
+        doc(db, 'station_fleet', selectedStation.id),
+        {
+          stationId: selectedStation.id,
+          stationName: selectedStation.name,
+          availableByType: {
+            PATROL_CAR: 20,
+            MOTORCYCLE: 12,
+            VAN: 6,
+            HEAVY: 4,
+          },
+          updatedAt: nowIso,
+          updatedAtServer: serverTimestamp(),
         },
-        updatedAt: nowIso,
-        updatedAtServer: serverTimestamp(),
-      }, { merge: true });
+        { merge: true }
+      );
 
       setSuccess('Station account created successfully. Redirecting...');
       router.push('/automobiles');
     } catch (signupError) {
-      const message = signupError instanceof Error ? signupError.message : 'Unable to create account.';
+      const message =
+        signupError instanceof Error ? signupError.message : 'Unable to create account.';
       setError(message);
     } finally {
       setLoading(false);
@@ -166,10 +173,15 @@ export default function AutomobilesAuthPage() {
   };
 
   return (
-    <main id="maincontent" className="container-wide flex min-h-[85vh] items-center justify-center py-10">
+    <main
+      id="maincontent"
+      className="container-wide flex min-h-[85vh] items-center justify-center py-10"
+    >
       <section className="card-elevated w-full max-w-xl rounded-3xl border border-border p-6 md:p-8">
         <header className="mb-6 space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Automobiles Station Access</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Automobiles Station Access
+          </h1>
           <p className="text-sm text-muted-foreground">
             Sign in or create a station account linked to a Gwalior police station.
           </p>
@@ -245,7 +257,10 @@ export default function AutomobilesAuthPage() {
               <label className="space-y-1.5">
                 <span className="text-sm font-medium text-foreground">Police Station</span>
                 <div className="relative">
-                  <Building2 className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" aria-hidden />
+                  <Building2
+                    className="pointer-events-none absolute left-3 top-3.5 h-4 w-4 text-muted-foreground"
+                    aria-hidden
+                  />
                   <select
                     className="h-11 w-full rounded-md border border-input bg-background pl-9 pr-3 text-sm text-foreground"
                     value={signupStationId}
@@ -293,20 +308,30 @@ export default function AutomobilesAuthPage() {
         </Tabs>
 
         {error ? (
-          <p className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">
+          <p
+            className="mt-4 rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
+            role="alert"
+          >
             {error}
           </p>
         ) : null}
 
         {success ? (
-          <p className="mt-4 rounded-lg border border-emerald-300/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300" role="status" aria-live="polite">
+          <p
+            className="mt-4 rounded-lg border border-emerald-300/40 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300"
+            role="status"
+            aria-live="polite"
+          >
             {success}
           </p>
         ) : null}
 
         <p className="mt-5 text-center text-sm text-muted-foreground">
           Back to{' '}
-          <Link href="/automobiles" className="font-medium text-primary underline-offset-4 hover:underline">
+          <Link
+            href="/automobiles"
+            className="font-medium text-primary underline-offset-4 hover:underline"
+          >
             automobiles dashboard
           </Link>
         </p>

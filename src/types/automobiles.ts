@@ -261,3 +261,46 @@ export interface VehicleDetailPanelProps {
   isOpen: boolean;
   onClose: () => void;
 }
+
+export type VehicleInventoryKey = 'PATROL_CAR' | 'MOTORCYCLE' | 'VAN' | 'HEAVY';
+
+export type VehicleInventoryByType = Record<VehicleInventoryKey, number>;
+
+export interface AutomobileStationAccount {
+  uid: string;
+  email: string;
+  stationId: string;
+  stationName: string;
+  role: 'ADMIN' | 'STATION_OFFICER' | 'FIELD_STAFF';
+}
+
+export interface StationFleetInventory {
+  stationId: string;
+  stationName: string;
+  availableByType: VehicleInventoryByType;
+  updatedAt: string;
+}
+
+export interface AutomobileTransferRequest {
+  id: string;
+  requesterUid: string;
+  requesterEmail: string;
+  requesterStationId: string;
+  requesterStationName: string;
+  sourceStationId: string;
+  sourceStationName: string;
+  destinationStationId: string;
+  destinationStationName: string;
+  startDateTime: string;
+  endDateTime: string;
+  requestedByType: VehicleInventoryByType;
+  purpose: string;
+  comments?: string;
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALLOCATED' | 'COMPLETED';
+  reviewedByUid?: string;
+  reviewedByEmail?: string;
+  reviewedAt?: string;
+  rejectionReason?: string;
+  createdAt: string;
+  updatedAt: string;
+}

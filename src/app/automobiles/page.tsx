@@ -11,6 +11,7 @@ import {
   Menu,
   Search,
   Settings,
+  Shield,
   X,
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -40,6 +41,7 @@ const AutomobileMapDashboard = dynamic(
 const navItems = [
   { label: 'Dashboard', href: '/automobiles', icon: LayoutDashboard },
   { label: 'Available Fleet', href: '/automobiles/vehicles', icon: Car },
+  { label: 'Seized Vehicles (AI)', href: '/automobiles/seized', icon: Shield },
   { label: 'My Bookings', href: '/automobiles/bookings', icon: CalendarDays },
   { label: 'Calendar', href: '/automobiles/calendar', icon: MapPin },
   { label: 'Notifications', href: '/automobiles/notifications', icon: Bell },
