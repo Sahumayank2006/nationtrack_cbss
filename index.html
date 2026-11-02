@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NationTrack | Asset Intelligence for a Sustainable India</title>
+  <meta name="description" content="NationTrack presentation website for India Innovates 2026." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- AOS (Animate on Scroll) -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+  <!-- CountUp.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.8.0/countUp.umd.min.js"></script>
+
+  <!-- Leaflet.js (map) -->
+  <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    :root {
+      --bg: #f0f4f9;
+      --bg-soft: #e8ecf3;
+      --paper: #faf9f7;
+      --ink: #0f172a;
+      --ink-soft: #334155;
+      --ink-muted: #64748b;
+      --line: #dbe2ea;
+      --blue: #0969da;
+      --emerald: #15803d;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --purple: #6d28d9;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    body {
+      background: linear-gradient(180deg, #f3f6fb 0%, #ecf0f7 100%);
+    }
+
+    .mono { font-family: "JetBrains Mono", monospace; }
+
+    .container-wrap {
+      width: min(1140px, calc(100% - 2.5rem));
+      margin-inline: auto;
+    }
+
+    .hero-bg {
+      background: linear-gradient(-45deg, #f7fafd, #eef4f9, #f9f4ed, #eef6fc);
+      background-size: 300% 300%;
+      animation: meshShift 14s ease infinite;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(15, 23, 42, 0.05) 0.5px, transparent 0.5px);
+      background-size: 8px 8px;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #1d4ed8 0%, #0969da 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+
+    .glass-card:hover {
+      background: #ffffff;
+      border-color: rgba(9, 105, 218, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px rgba(9, 105, 218, 0.1);
+    }
+
+    .section-line {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(9, 105, 218, 0.28), transparent);
+      margin: 0;
+    }
+
+    #navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 249, 252, 0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      transition: all 0.3s ease;
+    }
+
+    #navbar.nav-scrolled {
+      background: rgba(247, 249, 252, 0.97);
+      border-bottom-color: rgba(9, 105, 218, 0.2);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    }
+
+    .nav-link {
+      position: relative;
+      color: #475569;
+      transition: color 0.25s ease;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 100%;
+      height: 2px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #0f172a;
+    }
+
+    .nav-link:hover::after {
+      transform: scaleX(1);
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      border: 1px solid rgba(9, 105, 218, 0.8);
+      color: #fff;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      font-size: 0.92rem;
+      padding: 0.7rem 1.15rem;
+      border-radius: 10px;
+    }
+
+    .btn-primary:hover {
+      animation: glowPulse 1.2s ease-out;
+      box-shadow: 0 0 28px rgba(9, 105, 218, 0.3);
+      background: #1f6feb;
+    }
+
+    .btn-ghost {
+      border: 1px solid #c5d0dd;
+      color: #334155;
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.7);
+      transition: all 0.25s ease;
+      font-size: 0.92rem;
+      padding: 0.7rem 1.15rem;
+      border-radius: 10px;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(9, 105, 218, 0.55);
+      color: #0969da;
+      box-shadow: inset 0 0 0 1px rgba(9, 105, 218, 0.16);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--emerald);
+      animation: pulseRing 1.8s infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 4.3rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      font-family: Inter, sans-serif;
+      color: #0f172a;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3.8vw, 2.9rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-family: Inter, sans-serif;
+      color: #0f172a;
+    }
+
+    .stats-number {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .dashboard-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #d0dae6;
+      border-radius: 14px;
+      box-shadow: 0 30px 70px rgba(15, 23, 42, 0.14);
+      backdrop-filter: blur(12px);
+      position: relative;
+      animation: float 6s ease-in-out infinite;
+      overflow: hidden;
+    }
+
+    .dashboard-card::before {
+      content: "";
+      position: absolute;
+      inset: -6%;
+      border-radius: inherit;
+      background: radial-gradient(circle, rgba(9, 105, 218, 0.08) 0%, transparent 70%);
+      transform: scale(1.1);
+      z-index: -1;
+    }
+
+    .map-placeholder {
+      position: relative;
+      overflow: hidden;
+      background: #f0f4fa;
+    }
+
+    .map-placeholder::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(71, 85, 105, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(71, 85, 105, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+
+    .step-line {
+      border-top: 2px dashed rgba(37, 99, 235, 0.3);
+      animation: dashShift 3s linear infinite;
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .step-line { display: block; }
+    }
+
+    .leaflet-container {
+      border-radius: 14px;
+      border: 1px solid #d4ddea;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .custom-marker {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .mobile-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(247, 249, 252, 0.97);
+      backdrop-filter: blur(14px);
+      z-index: 90;
+    }
+
+    #mobile-menu .mobile-nav-link {
+      color: #0f172a;
+    }
+
+    #mobile-menu .mobile-nav-link:hover {
+      color: #0969da;
+    }
+
+    /* Light mode utility remap for existing Tailwind class names */
+    .text-slate-100, .text-slate-200, .text-white { color: #0f172a !important; }
+    .text-slate-300 { color: #334155 !important; }
+    .text-slate-400 { color: #475569 !important; }
+    .text-slate-500 { color: #64748b !important; }
+    .text-slate-600 { color: #94a3b8 !important; }
+    .text-blue-100 { color: #1e3a8a !important; }
+
+    .text-xs { font-size: 0.74rem !important; }
+    .text-sm { font-size: 0.86rem !important; }
+    .text-base { font-size: 0.95rem !important; }
+    .text-lg { font-size: 1.06rem !important; }
+    .text-xl { font-size: 1.36rem !important; }
+    .text-2xl { font-size: 1.62rem !important; }
+
+    .py-32 { padding-top: 6.5rem !important; padding-bottom: 6.5rem !important; }
+    .py-28 { padding-top: 5.5rem !important; padding-bottom: 5.5rem !important; }
+    .py-24 { padding-top: 4.75rem !important; padding-bottom: 4.75rem !important; }
+
+    .bg-slate-800, .bg-slate-800\/60 {
+      background: #f1f5f9 !important;
+      border-color: #d4ddea !important;
+      color: #334155 !important;
+    }
+
+    .bg-slate-900\/80 {
+      background: #eef3f9 !important;
+      border: 1px solid #d4ddea !important;
+    }
+
+    .border-slate-700, .border-slate-800\/80 {
+      border-color: #c9d5e3 !important;
+    }
+
+    #problem,
+    #modules,
+    #tech,
+    #contact {
+      background: #fdfbf9 !important;
+    }
+
+    #urgency,
+    #pilot,
+    #team {
+      background: #f0f3f9 !important;
+    }
+
+    #solution {
+      background: linear-gradient(135deg, #f3f8fc 0%, #ecf1f8 55%, #f3f8fc 100%) !important;
+    }
+
+    #features {
+      background: radial-gradient(ellipse at center, rgba(9, 105, 218, 0.1) 0%, transparent 70%), #faf9f7 !important;
+    }
+
+    #impact {
+      background: linear-gradient(180deg, #e6eef9 0%, #dfe8f3 100%) !important;
+      border-top: 1px solid #d6e2f3;
+      border-bottom: 1px solid #d6e2f3;
+    }
+
+    #impact .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    #impact .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: #bfd2ef;
+    }
+
+    #impact .stats-number {
+      color: #0f172a !important;
+    }
+
+    @media (max-width: 768px) {
+      html, body { font-size: 14px; }
+      .container-wrap { width: min(1140px, calc(100% - 1.5rem)); }
+      .hero-title { font-size: clamp(2rem, 10vw, 3rem); }
+      .section-title { font-size: clamp(1.6rem, 7vw, 2.15rem); }
+    }
+
+    .hidden { display: none !important; }
+
+    @keyframes meshShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-14px); }
+    }
+
+    @keyframes pulseRing {
+      0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+      70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.5); }
+      70% { box-shadow: 0 0 0 16px rgba(37, 99, 235, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+
+    @keyframes dashShift {
+      0% { background-position: 0 0; }
+      100% { background-position: 40px 0; }
+    }
+
+    .dash-bg {
+      background-image: repeating-linear-gradient(
+        to right,
+        rgba(37, 99, 235, 0.5),
+        rgba(37, 99, 235, 0.5) 10px,
+        transparent 10px,
+        transparent 18px
+      );
+      height: 2px;
+    }
+  </style>
+</head>
+<body>
+  <nav id="navbar">
+    <div class="container-wrap h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-9 h-9 rounded-xl bg-blue-500/15 border border-blue-400/40 text-blue-400 flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+          <i data-lucide="shield"></i>
+        </div>
+        <div class="font-bold text-xl tracking-tight whitespace-nowrap">
+          <span class="text-slate-100">Nation</span><span class="text-blue-500">Track</span>
+        </div>
+        <span class="hidden sm:inline-flex text-[11px] px-3 py-1 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-300 mono uppercase tracking-[0.12em]">Gwalior Pilot 2026</span>
+      </div>
+
+      <div class="hidden lg:flex items-center gap-8 text-sm">
+        <a class="nav-link" href="#problem">Problem</a>
+        <a class="nav-link" href="#solution">Solution</a>
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#modules">Modules</a>
+        <a class="nav-link" href="#impact">Impact</a>
+        <a class="nav-link" href="#team">Team</a>
+      </div>
+
+      <div class="hidden md:flex items-center gap-3">
+        <a href="#tech" class="btn-ghost rounded-xl px-4 py-2 text-sm">GitHub →</a>
+        <a href="#pilot" class="btn-primary rounded-xl px-4 py-2 text-sm">View Demo</a>
+      </div>
+
+      <button id="menu-toggle" class="md:hidden w-10 h-10 rounded-lg border border-slate-700 text-slate-200 flex items-center justify-center" aria-label="Open Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-menu" class="mobile-overlay hidden md:hidden">
+    <div class="h-full w-full flex flex-col items-center justify-center gap-8 text-2xl font-semibold">
+      <a class="mobile-nav-link" href="#problem">Problem</a>
+      <a class="mobile-nav-link" href="#solution">Solution</a>
+      <a class="mobile-nav-link" href="#features">Features</a>
+      <a class="mobile-nav-link" href="#modules">Modules</a>
+      <a class="mobile-nav-link" href="#impact">Impact</a>
+      <a class="mobile-nav-link" href="#team">Team</a>
+    </div>
+  </div>
+
+  <section id="hero" class="hero-bg min-h-screen flex items-center">
+    <div class="container-wrap py-24 relative z-10 grid lg:grid-cols-5 gap-12 items-center">
+      <div id="hero-content" class="lg:col-span-3" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">
+        <div class="inline-flex items-center gap-2 border border-blue-500/30 bg-blue-500/10 rounded-full text-blue-300 text-xs mono uppercase tracking-[0.14em] px-4 py-1.5">
+          <span>India Innovates 2026</span>
+          <span>•</span>
+          <span>Gwalior Pilot</span>
+        </div>
+
+        <p class="mt-5 text-sm text-blue-300 mono uppercase tracking-[0.2em]">Asset Intelligence for a Sustainable India</p>
+
+        <h1 class="hero-title mt-4">
+          Every Government
+          <span class="block gradient-text">Asset.</span>
+          <span class="block">Accounted For.</span>
+        </h1>
+
+        <p class="mt-6 text-lg leading-relaxed text-slate-400 max-w-2xl">India spends ₹15.48 lakh crore on public assets every year. NationTrack makes every rupee visible, trackable, and reusable — starting with Gwalior, Madhya Pradesh.</p>
+
+        <div class="mt-8 flex flex-wrap gap-3 text-sm text-slate-300">
+          <span class="px-4 py-2 rounded-full bg-slate-800/60 border border-slate-700/50">500+ Vehicles Tracked</span>
+          <span class="px-4 py-2 rounded-full bg-slate-800/60 border border-slate-700/50">120 Spaces Listed</span>
+          <span class="px-4 py-2 rounded-full bg-slate-800/60 border border-slate-700/50">₹4.2Cr Assets Optimised</span>
+        </div>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="#pilot" class="btn-primary rounded-xl px-8 py-4 text-base">Explore the Pilot →</a>
+          <a href="#contact" class="btn-ghost rounded-xl px-8 py-4 text-base">Watch 2-min Demo</a>
+        </div>
+
+        <p class="mt-5 text-xs text-slate-500 mono uppercase tracking-[0.14em]">Built for GMC Gwalior · DPDP Compliant · Open Source · SDG-11 Aligned</p>
+      </div>
+
+      <div class="lg:col-span-2" data-aos="fade-up" data-aos-delay="150" data-aos-duration="700" data-aos-once="true">
+        <div class="dashboard-card p-5">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold text-slate-100">Live Asset Dashboard</h3>
+            <div class="flex items-center gap-2 text-xs text-emerald-400 mono uppercase">
+              <span class="live-dot"></span>
+              <span>LIVE</span>
+            </div>
+          </div>
+
+          <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+            <div class="bg-slate-800 rounded-lg px-3 py-2">
+              <p class="text-white font-bold">342</p>
+              <p class="text-slate-400 text-[11px]">Total Vehicles</p>
+            </div>
+            <div class="bg-slate-800 rounded-lg px-3 py-2">
+              <p class="text-white font-bold">287</p>
+              <p class="text-slate-400 text-[11px]">Active</p>
+            </div>
+            <div class="bg-slate-800 rounded-lg px-3 py-2">
+              <p class="text-white font-bold">23</p>
+              <p class="text-slate-400 text-[11px]">Idle Spaces</p>
+            </div>
+          </div>
+
+          <div class="map-placeholder mt-4 rounded-xl h-36 p-3 relative">
+            <span class="absolute left-[20%] top-[35%] w-3 h-3 bg-emerald-400 rounded-full"></span>
+            <span class="absolute left-[62%] top-[24%] w-3 h-3 bg-amber-400 rounded-full"></span>
+            <span class="absolute left-[48%] top-[65%] w-3 h-3 bg-red-400 rounded-full"></span>
+            <span class="absolute right-3 bottom-2 text-[11px] text-slate-400 mono">Gwalior, MP</span>
+          </div>
+
+          <div class="mt-4 space-y-2 text-sm">
+            <div class="bg-slate-900/80 rounded-lg px-3 py-2 flex items-center justify-between">
+              <div>
+                <p class="text-slate-100">Ambulance NT-GWL-001</p>
+                <p class="text-xs text-slate-400">Lashkar</p>
+              </div>
+              <span class="text-xs px-2 py-1 rounded-full bg-emerald-500/20 text-emerald-300">ACTIVE</span>
+            </div>
+            <div class="bg-slate-900/80 rounded-lg px-3 py-2 flex items-center justify-between">
+              <div>
+                <p class="text-slate-100">GMC Truck 08</p>
+                <p class="text-xs text-slate-400">Morar</p>
+              </div>
+              <span class="text-xs px-2 py-1 rounded-full bg-amber-500/20 text-amber-300">IDLE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="problem" class="py-32 bg-[#030712]">
+    <div class="container-wrap text-center">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">THE PROBLEM</p>
+      <h2 class="section-title mt-4" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">₹15.48 Lakh Crore.<br /><span class="gradient-text">Zero Visibility.</span></h2>
+      <p class="max-w-3xl mx-auto mt-6 text-slate-400 leading-relaxed" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Indian governments own one of the world's largest asset bases — yet have no unified system to see, use, or optimise what they already own.</p>
+
+      <div class="mt-14 grid md:grid-cols-2 gap-6 text-left">
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-400/30 text-blue-300 flex items-center justify-center"><i data-lucide="car"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Phantom Fleet</h3>
+          <ul class="mt-3 text-slate-400 leading-relaxed list-disc list-inside space-y-1">
+            <li>40–60% of vehicles run without GPS visibility.</li>
+            <li>Critical fleets remain untracked until audits.</li>
+          </ul>
+          <p class="mt-4 text-xs mono uppercase tracking-[0.14em] text-slate-500">GMC · Police · Health · PWD</p>
+        </article>
+
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 flex items-center justify-center"><i data-lucide="building-2"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Locked Rooms, Locked Potential</h3>
+          <ul class="mt-3 text-slate-400 leading-relaxed list-disc list-inside space-y-1">
+            <li>Public spaces stay idle despite regular demand.</li>
+            <li>No unified booking workflow for civic use.</li>
+          </ul>
+          <p class="mt-4 text-xs mono uppercase tracking-[0.14em] text-slate-500">Hospitals · Schools · Samudayik Bhavan</p>
+        </article>
+
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-400/30 text-amber-300 flex items-center justify-center"><i data-lucide="file-x"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Paper Registers, Missing Assets</h3>
+          <ul class="mt-3 text-slate-400 leading-relaxed list-disc list-inside space-y-1">
+            <li>Records are fragmented across paper and spreadsheets.</li>
+            <li>Audits are slow and still miss asset history.</li>
+          </ul>
+          <p class="mt-4 text-xs mono uppercase tracking-[0.14em] text-slate-500">PUC · Insurance · Maintenance</p>
+        </article>
+
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="400" data-aos-duration="700" data-aos-once="true">
+          <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-400/30 text-red-300 flex items-center justify-center"><i data-lucide="refresh-ccw"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Buy New. Ignore Existing.</h3>
+          <ul class="mt-3 text-slate-400 leading-relaxed list-disc list-inside space-y-1">
+            <li>New procurement happens while assets sit idle nearby.</li>
+            <li>No cross-department visibility to reuse existing capacity.</li>
+          </ul>
+          <p class="mt-4 text-xs mono uppercase tracking-[0.14em] text-slate-500">₹ Crores in preventable spend</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="urgency" class="stats-section py-28 bg-[#050a14]">
+    <div class="container-wrap">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">THE SCALE OF THE PROBLEM</p>
+      <h2 class="section-title mt-4 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Numbers That Demand Action.</h2>
+
+      <div class="mt-14 grid md:grid-cols-2 gap-6">
+        <article class="glass-card p-8 border-t-4 border-blue-500 bg-blue-500/5" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true">
+          <p class="stats-number gradient-text"><span class="countup" data-target="15.48" data-prefix="₹" data-suffix=" Lakh Crore">0</span></p>
+          <h3 class="mt-3 font-semibold text-lg">Annual Public Capital Expenditure (FY26)</h3>
+          <p class="mt-2 text-sm text-slate-500">Source: Union Budget 2025-26</p>
+        </article>
+
+        <article class="glass-card p-8 border-t-4 border-amber-500 bg-amber-500/5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true">
+          <p class="stats-number gradient-text"><span class="countup" data-target="60" data-suffix="%">0</span></p>
+          <h3 class="mt-3 font-semibold text-lg">Government Vehicles Without GPS Tracking</h3>
+          <p class="mt-2 text-sm text-slate-500">Estimated across state fleets</p>
+        </article>
+
+        <article class="glass-card p-8 border-t-4 border-emerald-500 bg-emerald-500/5" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true">
+          <p class="stats-number gradient-text"><span class="countup" data-target="10000" data-suffix="+">0</span></p>
+          <h3 class="mt-3 font-semibold text-lg">Idle Government Spaces Across MP</h3>
+          <p class="mt-2 text-sm text-slate-500">Community halls, classrooms, hospital rooms</p>
+        </article>
+
+        <article class="glass-card p-8 border-t-4 border-purple-500 bg-purple-500/5" data-aos="fade-up" data-aos-delay="400" data-aos-duration="700" data-aos-once="true">
+          <p class="stats-number gradient-text"><span class="countup" data-target="4000" data-prefix="₹" data-suffix=" Cr+">0</span></p>
+          <h3 class="mt-3 font-semibold text-lg">Estimated Annual Savings Potential (MP alone)</h3>
+          <p class="mt-2 text-sm text-slate-500">Through utilization + reuse optimization</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="solution" class="py-32" style="background: linear-gradient(135deg, #0f172a 0%, #0c1428 50%, #0a0f1e 100%);">
+    <div class="container-wrap text-center">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">THE SOLUTION</p>
+      <h2 class="section-title mt-4" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">A Digital Passport for<br /><span class="gradient-text">Every Public Asset.</span></h2>
+      <p class="max-w-4xl mx-auto mt-6 text-slate-400 leading-relaxed" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">NationTrack sits as an intelligence layer above existing government systems. It registers every government vehicle and public space as a Digital Asset Passport — with real-time GPS tracking, AI-powered idle detection, Airbnb-style civic booking, and a SHA-256 tamper-proof audit trail. No rip-and-replace. Pure plug-and-play.</p>
+
+      <div class="mt-16 grid lg:grid-cols-3 gap-6 relative">
+        <div class="hidden lg:block absolute top-[52px] left-[16%] right-[16%]">
+          <div class="dash-bg"></div>
+        </div>
+
+        <article class="glass-card p-7 text-left relative" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true">
+          <div class="w-14 h-14 rounded-2xl bg-blue-500/10 border border-blue-400/35 text-blue-300 flex items-center justify-center"><i data-lucide="file-text"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Register</h3>
+          <p class="mt-3 text-slate-400 leading-relaxed">Every asset gets a Digital Passport with photos, QR code, GPS link, and compliance records. One-time setup per asset.</p>
+        </article>
+
+        <article class="glass-card p-7 text-left relative" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-400/35 text-emerald-300 flex items-center justify-center"><i data-lucide="activity"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Track & Detect</h3>
+          <p class="mt-3 text-slate-400 leading-relaxed">Live GPS for vehicles. Occupancy sensors for spaces. AI flags idle assets — vehicles (6 months), spaces (3 days).</p>
+        </article>
+
+        <article class="glass-card p-7 text-left relative" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true">
+          <div class="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-400/35 text-purple-300 flex items-center justify-center"><i data-lucide="refresh-cw"></i></div>
+          <h3 class="mt-4 text-xl font-bold">Book & Reuse</h3>
+          <p class="mt-3 text-slate-400 leading-relaxed">Citizens book idle civic spaces via calendar. Idle vehicles get re-use suggestions, inter-department transfers, or GeM auction flags.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="modules" class="py-32 bg-[#030712]">
+    <div class="container-wrap">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">TWO MODULES</p>
+      <h2 class="section-title mt-4 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Fleet Intelligence + Civic Space Booking.</h2>
+      <p class="text-center text-slate-400 mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Two problems. One platform. One pilot city.</p>
+
+      <div class="mt-14 grid lg:grid-cols-2 gap-6 items-stretch">
+        <article class="glass-card p-10 border-l-4 border-blue-500 flex flex-col" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true">
+          <div class="w-16 h-16 rounded-2xl bg-blue-500/10 text-blue-300 flex items-center justify-center"><i data-lucide="car-front"></i></div>
+          <span class="mt-4 inline-flex w-fit px-3 py-1 rounded-full text-xs mono uppercase tracking-[0.1em] bg-blue-500/10 border border-blue-400/35 text-blue-300">GMC Trucks · 108 Ambulances · Police Fleet · PWD</span>
+          <h3 class="mt-4 text-2xl font-bold">Automobile Intelligence</h3>
+          <p class="mt-3 text-slate-400 leading-relaxed">Track fleet movement, utilization, and compliance in one operational dashboard.</p>
+          <ul class="mt-5 space-y-2 text-slate-300 text-sm list-disc list-inside">
+            <li>Live GPS map with status-based pins</li>
+            <li>Trip logs, utilization charts, and exportable reports</li>
+            <li>Compliance alerts for PUC and insurance deadlines</li>
+            <li>Idle detection (&gt;6 months) with GeM export support</li>
+            <li>AIS-140 integration for major device providers</li>
+            <li>Predictive maintenance risk scoring</li>
+          </ul>
+          <div class="mt-5 flex flex-wrap gap-2 text-xs">
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Ambulance</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Patrol</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Waste Truck</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">PWD Machinery</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Health Van</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Election</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Seized</span>
+          </div>
+          <a href="#pilot" class="mt-6 text-blue-400 hover:text-blue-300 font-semibold">Explore Fleet Module →</a>
+        </article>
+
+        <article class="glass-card p-10 border-l-4 border-emerald-500 flex flex-col" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true">
+          <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 text-emerald-300 flex items-center justify-center"><i data-lucide="building-2"></i></div>
+          <span class="mt-4 inline-flex w-fit px-3 py-1 rounded-full text-xs mono uppercase tracking-[0.1em] bg-emerald-500/10 border border-emerald-400/35 text-emerald-300">Hospitals · Schools · Community Halls · Transit Rooms</span>
+          <h3 class="mt-4 text-2xl font-bold">AssetSpace — Civic Booking</h3>
+          <p class="mt-3 text-slate-400 leading-relaxed">Enable discoverable, governed booking for underused public spaces.</p>
+          <ul class="mt-5 space-y-2 text-slate-300 text-sm list-disc list-inside">
+            <li>Interactive map with filters and availability</li>
+            <li>Digital Space Passport with capacity and amenities</li>
+            <li>Calendar booking with day and hourly slots</li>
+            <li>Auto/manual approval rules by space category</li>
+            <li>Secure Transit Mode with 24-hour policy limits</li>
+            <li>QR check-in, checkout, and post-use feedback</li>
+          </ul>
+          <div class="mt-5 flex flex-wrap gap-2 text-xs">
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Hospital Room</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Classroom</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Community Hall</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">PWD Office</span>
+            <span class="px-3 py-1 rounded-full bg-slate-800 border border-slate-700">Transit Room</span>
+          </div>
+          <a href="#pilot" class="mt-6 text-emerald-400 hover:text-emerald-300 font-semibold">Explore Space Module →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="features" class="py-32" style="background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.05) 0%, transparent 70%), #030712;">
+    <div class="container-wrap">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">BUILT-IN INTELLIGENCE</p>
+      <h2 class="section-title mt-4 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Six Features That Make the Difference.</h2>
+
+      <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true"><i data-lucide="signal" class="text-blue-300"></i><h3 class="mt-4 text-xl font-bold">Hybrid Tracking</h3><ul class="mt-3 text-slate-400 list-disc list-inside space-y-1"><li>AIS-140 GPS with QR fallback.</li><li>Offline updates sync on reconnect.</li></ul><span class="mt-4 inline-block px-3 py-1 rounded-full bg-slate-800 text-xs mono text-slate-300">AIS-140 · QR · PWA</span></article>
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true"><i data-lucide="cpu" class="text-emerald-300"></i><h3 class="mt-4 text-xl font-bold">AI Idle Alerts</h3><ul class="mt-3 text-slate-400 list-disc list-inside space-y-1"><li>Flags vehicles and spaces with inactivity rules.</li><li>Suggests transfer, auction, or repurpose actions.</li></ul><span class="mt-4 inline-block px-3 py-1 rounded-full bg-slate-800 text-xs mono text-slate-300">Node-cron · Rule Engine</span></article>
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true"><i data-lucide="id-card" class="text-purple-300"></i><h3 class="mt-4 text-xl font-bold">Digital Asset Passport</h3><ul class="mt-3 text-slate-400 list-disc list-inside space-y-1"><li>Single identity for each asset.</li><li>Includes compliance, history, and QR linkage.</li></ul><span class="mt-4 inline-block px-3 py-1 rounded-full bg-slate-800 text-xs mono text-slate-300">MongoDB · QR Code</span></article>
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true"><i data-lucide="shield" class="text-amber-300"></i><h3 class="mt-4 text-xl font-bold">SHA-256 Audit Trail</h3><ul class="mt-3 text-slate-400 list-disc list-inside space-y-1"><li>Each state change is hash-linked.</li><li>Audit-ready logs for compliance reviews.</li></ul><span class="mt-4 inline-block px-3 py-1 rounded-full bg-slate-800 text-xs mono text-slate-300">Hash Chain · Hyperledger-ready</span></article>
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true"><i data-lucide="shield-alert" class="text-red-300"></i><h3 class="mt-4 text-xl font-bold">Secure Transit Mode</h3><ul class="mt-3 text-slate-400 list-disc list-inside space-y-1"><li>Strict policies for sensitive police rooms.</li><li>Manual approval with role-based access control.</li></ul><span class="mt-4 inline-block px-3 py-1 rounded-full bg-slate-800 text-xs mono text-slate-300">RBAC · JWT · NestJS</span></article>
+        <article class="glass-card p-7" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true"><i data-lucide="wifi-off" class="text-blue-200"></i><h3 class="mt-4 text-xl font-bold">Works Offline</h3><ul class="mt-3 text-slate-400 list-disc list-inside space-y-1"><li>Field updates work without internet.</li><li>Queued sync restores consistency automatically.</li></ul><span class="mt-4 inline-block px-3 py-1 rounded-full bg-slate-800 text-xs mono text-slate-300">Workbox · IndexedDB</span></article>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="pilot" class="py-32 bg-[#050a14]">
+    <div class="container-wrap">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">THE PILOT</p>
+      <h2 class="section-title mt-4 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">One City. Real Assets. Real Impact.</h2>
+      <p class="max-w-3xl mx-auto mt-5 text-slate-400 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Gwalior, Madhya Pradesh — India's first city-wide government asset intelligence pilot.</p>
+
+      <div class="mt-14 grid lg:grid-cols-2 gap-8">
+        <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true">
+          <div id="gwalior-map" style="height: 400px;"></div>
+        </div>
+
+        <div class="space-y-5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true">
+          <div class="glass-card p-5 text-slate-300">
+            <ul class="list-disc list-inside space-y-2">
+              <li>25 vehicles in Phase 1: 10 ambulances, 8 GMC trucks, 5 patrol, 2 PWD.</li>
+              <li>10 spaces listed: 5 hospitals, 3 community halls, 2 classrooms.</li>
+              <li>5 departments onboarded: Health, GMC, Police, PWD, Election.</li>
+              <li>3-month MVP timeline: January to March 2026.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-5 border border-amber-400/30 bg-amber-500/5 text-amber-200">SDG Goal 11: Sustainable Cities & Communities</div>
+
+          <blockquote class="glass-card p-6 border-l-4 border-blue-500 italic text-slate-300">
+            "NationTrack is not a new system. It's a visibility layer on top of what already exists. Zero disruption. Maximum impact."
+            <footer class="mt-2 text-sm text-slate-500 not-italic">— NationTrack Team, India Innovates 2026</footer>
+          </blockquote>
+
+          <div class="flex flex-wrap items-center gap-2 text-sm">
+            <span class="px-3 py-1 rounded-full border border-blue-400/45 text-blue-300 shadow-[0_0_20px_rgba(37,99,235,0.25)]">Gwalior (Phase 1)</span>
+            <span class="text-slate-500">→</span>
+            <span class="px-3 py-1 rounded-full border border-slate-700 text-slate-300">Bhopal + Indore (Phase 2)</span>
+            <span class="text-slate-500">→</span>
+            <span class="px-3 py-1 rounded-full border border-slate-700 text-slate-300">All MP Districts (Phase 3)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="tech" class="py-32 bg-[#030712]">
+    <div class="container-wrap">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">BUILT WITH</p>
+      <h2 class="section-title mt-4 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">The Tech Stack.</h2>
+      <p class="text-center text-slate-400 mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Modern, open-source, India-deployable. No vendor lock-in. NIC/MeghRaj ready.</p>
+
+      <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <article class="glass-card p-5"><h3 class="font-semibold">Next.js 15</h3><p class="text-sm text-slate-400 mt-2">App Router, TypeScript, SSR + Static Export, PWA</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">NestJS + MongoDB</h3><p class="text-sm text-slate-400 mt-2">Type-safe REST API, Mongoose ODM, Redis caching</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">Leaflet Maps</h3><p class="text-sm text-slate-400 mt-2">OpenStreetMap tiles, GeoJSON, custom SVG pins</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">Tailwind + shadcn</h3><p class="text-sm text-slate-400 mt-2">Design system, component library, dark mode</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">Clerk Auth + JWT</h3><p class="text-sm text-slate-400 mt-2">RBAC, 5 roles, secure session management</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">AIS-140 Integration</h3><p class="text-sm text-slate-400 mt-2">GPS devices (Watsoo, trackNOW, GeoSafe) via webhook</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">SHA-256 Hash Chain</h3><p class="text-sm text-slate-400 mt-2">Every state change cryptographically logged (CAG-ready)</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">Twilio WhatsApp</h3><p class="text-sm text-slate-400 mt-2">Instant alerts for officers, citizens, and drivers</p></article>
+        <article class="glass-card p-5"><h3 class="font-semibold">PWA (Workbox)</h3><p class="text-sm text-slate-400 mt-2">Offline-first, location queue, sync on reconnect</p></article>
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-2 text-sm text-slate-400">
+        <span class="mono uppercase tracking-[0.12em] text-xs text-slate-500">Integrates with:</span>
+        <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700">MP PAM Portal</span>
+        <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700">VAHAN / NIC VLTD</span>
+        <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700">GeM Auction</span>
+        <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700">IUDX Smart City</span>
+        <span class="px-4 py-1.5 rounded-full bg-slate-800 border border-slate-700">data.gov.in</span>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="impact" class="stats-section py-32" style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);">
+    <div class="container-wrap text-white">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-100 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">PROJECTED IMPACT</p>
+      <h2 class="section-title mt-4 text-center" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">What Success Looks Like.</h2>
+
+      <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+        <article class="glass-card p-6 bg-white/5" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true"><p class="stats-number text-white"><span class="countup" data-target="40" data-suffix="%">0</span></p><p class="mt-2 text-blue-100">Fleet Utilization Increase in Year 1</p></article>
+        <article class="glass-card p-6 bg-white/5" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true"><p class="stats-number text-white"><span class="countup" data-target="200" data-prefix="₹" data-suffix="Cr+">0</span></p><p class="mt-2 text-blue-100">Projected Annual Savings (Gwalior alone)</p></article>
+        <article class="glass-card p-6 bg-white/5" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true"><p class="stats-number text-white"><span class="countup" data-target="10000" data-suffix="+">0</span></p><p class="mt-2 text-blue-100">Citizen Bookings Enabled per Year</p></article>
+        <article class="glass-card p-6 bg-white/5" data-aos="fade-up" data-aos-delay="400" data-aos-duration="700" data-aos-once="true"><p class="stats-number text-white"><span class="countup" data-target="100" data-suffix="%">0</span></p><p class="mt-2 text-blue-100">Audit Trail Coverage (every state change logged)</p></article>
+      </div>
+
+      <div class="mt-12 grid lg:grid-cols-2 gap-6">
+        <div class="glass-card p-6 bg-white/5">
+          <h3 class="text-xl font-bold">Phase 1 Deliverables</h3>
+          <ul class="mt-4 space-y-2 text-blue-100 list-disc list-inside">
+            <li>25 vehicles tracked live with GPS.</li>
+            <li>10 civic spaces bookable by citizens.</li>
+            <li>5 departments onboarded.</li>
+            <li>Idle detection and WhatsApp alerts live.</li>
+            <li>PDF compliance reports for administration.</li>
+            <li>Offline PWA support for field staff.</li>
+          </ul>
+        </div>
+        <div class="glass-card p-6 bg-white/5">
+          <h3 class="text-xl font-bold">Path to Scale</h3>
+          <ul class="mt-4 space-y-2 text-blue-100 list-disc list-inside">
+            <li>Q1 2026: Gwalior MVP (active).</li>
+            <li>Q3 2026: Bhopal and Indore expansion.</li>
+            <li>Q1 2027: Coverage across all 52 MP districts.</li>
+            <li>2027 onward: National GovTech rollout.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="team" class="py-32 bg-[#050a14]">
+    <div class="container-wrap text-center">
+      <p class="mono text-xs uppercase tracking-[0.18em] text-blue-400" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">THE TEAM</p>
+      <h2 class="section-title mt-4" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Built by Students. For 1.4 Billion People.</h2>
+      <p class="text-slate-400 mt-5" data-aos="fade-up" data-aos-duration="700" data-aos-once="true">Computer Science students from Madhya Pradesh — building India's GovTech future.</p>
+
+      <!-- UPDATE TEAM SECTION WITH REAL NAMES AND ROLES BEFORE PUBLISHING -->
+      <div class="mt-12 flex flex-wrap justify-center gap-6">
+        <article class="glass-card w-[220px] p-6 text-center" data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" data-aos-once="true">
+          <div class="w-20 h-20 rounded-full mx-auto bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center text-2xl font-bold">PK</div>
+          <h3 class="mt-4 font-bold">Parikshit Kumar</h3>
+          <p class="text-slate-400 text-sm">Full-Stack Lead</p>
+          <p class="text-xs text-slate-500 mt-1">CSE · Madhya Pradesh</p>
+          <div class="mt-3 flex flex-wrap justify-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-slate-800">Full Stack</span><span class="px-2 py-1 rounded-full bg-slate-800">IoT</span><span class="px-2 py-1 rounded-full bg-slate-800">GovTech</span></div>
+          <div class="mt-4 flex justify-center gap-4 text-slate-300"><a href="#"><i data-lucide="github"></i></a><a href="#"><i data-lucide="linkedin"></i></a></div>
+        </article>
+
+        <article class="glass-card w-[220px] p-6 text-center" data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" data-aos-once="true">
+          <div class="w-20 h-20 rounded-full mx-auto bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-2xl font-bold">AS</div>
+          <h3 class="mt-4 font-bold">Aditi Sharma</h3>
+          <p class="text-slate-400 text-sm">Product + UX</p>
+          <p class="text-xs text-slate-500 mt-1">CSE · Madhya Pradesh</p>
+          <div class="mt-3 flex flex-wrap justify-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-slate-800">UX</span><span class="px-2 py-1 rounded-full bg-slate-800">Research</span><span class="px-2 py-1 rounded-full bg-slate-800">PWA</span></div>
+          <div class="mt-4 flex justify-center gap-4 text-slate-300"><a href="#"><i data-lucide="github"></i></a><a href="#"><i data-lucide="linkedin"></i></a></div>
+        </article>
+
+        <article class="glass-card w-[220px] p-6 text-center" data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" data-aos-once="true">
+          <div class="w-20 h-20 rounded-full mx-auto bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center text-2xl font-bold">RM</div>
+          <h3 class="mt-4 font-bold">Rohit Mishra</h3>
+          <p class="text-slate-400 text-sm">Data + AI Engineer</p>
+          <p class="text-xs text-slate-500 mt-1">CSE · Madhya Pradesh</p>
+          <div class="mt-3 flex flex-wrap justify-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-slate-800">Machine Learning</span><span class="px-2 py-1 rounded-full bg-slate-800">Analytics</span><span class="px-2 py-1 rounded-full bg-slate-800">Node.js</span></div>
+          <div class="mt-4 flex justify-center gap-4 text-slate-300"><a href="#"><i data-lucide="github"></i></a><a href="#"><i data-lucide="linkedin"></i></a></div>
+        </article>
+      </div>
+
+      <p class="mt-10 text-slate-500 text-sm mono">Built for India Innovates 2026 · Mentor: [Add Name] · Pilot Partner: GMC Gwalior</p>
+    </div>
+  </section>
+
+  <hr class="section-line" />
+
+  <section id="contact" class="py-24 bg-[#030712]">
+    <div class="container-wrap">
+      <div class="glass-card p-10 md:p-14 text-center max-w-4xl mx-auto">
+        <h2 class="section-title">Ready to See It in Action?</h2>
+        <p class="mt-4 text-slate-400">NationTrack is open-source, free for government departments, and ready to deploy.</p>
+        <div class="mt-8 flex flex-wrap justify-center gap-4">
+          <a href="#" class="btn-primary rounded-xl px-8 py-4">View GitHub Repo →</a>
+          <a href="#" class="btn-ghost rounded-xl px-8 py-4">Request a Demo</a>
+        </div>
+      </div>
+
+      <footer class="mt-16 border-t border-slate-800/80 pt-8">
+        <div class="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between text-sm text-slate-400">
+          <div>
+            <p class="font-semibold text-slate-200">NationTrack</p>
+            <p>An open-source initiative for India's public asset intelligence</p>
+          </div>
+          <div class="flex flex-wrap gap-4">
+            <a href="#problem">Problem</a>
+            <a href="#solution">Solution</a>
+            <a href="#features">Features</a>
+            <a href="#modules">Modules</a>
+            <a href="#team">Team</a>
+          </div>
+          <div class="flex gap-4">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Twitter/X</a>
+          </div>
+        </div>
+
+        <div class="mt-8 text-center text-xs text-slate-600 mono uppercase tracking-[0.12em]">
+          <p>© 2026 NationTrack · Built for India Innovates 2026 · Gwalior, Madhya Pradesh</p>
+          <p class="mt-2">DPDP Compliant · SDG-11 Aligned · Open Source (MIT)</p>
+          <p class="mt-2">Made for India Innovates 2026 · Gwalior, Madhya Pradesh · Open Source (MIT)</p>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <script>
+    AOS.init({ duration: 700, once: true, easing: 'ease-out-cubic', offset: 80 });
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        entry.target.querySelectorAll('.countup').forEach((el) => {
+          if (el.dataset.animated === 'true') return;
+          const CountUpClass = window.countUp.CountUp;
+          const counter = new CountUpClass(el, parseFloat(el.dataset.target), {
+            duration: 2.5,
+            separator: ',',
+            prefix: el.dataset.prefix || '',
+            suffix: el.dataset.suffix || ''
+          });
+          if (!counter.error) {
+            counter.start();
+            el.dataset.animated = 'true';
+          }
+        });
+
+        statsObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.stats-section').forEach((section) => statsObserver.observe(section));
+
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener('click', (event) => {
+        const href = anchor.getAttribute('href');
+        if (!href || href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('nav-scrolled', window.scrollY > 60);
+    });
+
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    const heroContent = document.getElementById('hero-content');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < window.innerHeight) {
+        heroContent.style.transform = `translateY(${window.scrollY * 0.25}px)`;
+        heroContent.style.opacity = String(1 - (window.scrollY / (window.innerHeight * 0.8)));
+      }
+    });
+
+    const map = L.map('gwalior-map', { zoomControl: false }).setView([26.2183, 78.1828], 12);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap contributors © CARTO',
+      maxZoom: 19
+    }).addTo(map);
+
+    const seedVehicles = [
+      { lat: 26.227, lng: 78.176, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-001 | Health Dept | Last seen: 3 min ago' },
+      { lat: 26.221, lng: 78.187, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-002 | Health Dept | Last seen: 8 min ago' },
+      { lat: 26.212, lng: 78.198, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-003 | Health Dept | Last seen: 1 min ago' },
+      { lat: 26.205, lng: 78.169, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-004 | Health Dept | Last seen: 4 min ago' },
+      { lat: 26.236, lng: 78.164, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-005 | Health Dept | Last seen: 6 min ago' },
+      { lat: 26.241, lng: 78.193, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-006 | Health Dept | Last seen: 2 min ago' },
+      { lat: 26.198, lng: 78.204, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-007 | Health Dept | Last seen: 5 min ago' },
+      { lat: 26.217, lng: 78.157, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-008 | Health Dept | Last seen: 7 min ago' },
+      { lat: 26.229, lng: 78.214, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-009 | Health Dept | Last seen: 3 min ago' },
+      { lat: 26.208, lng: 78.183, color: '#3b82f6', marker: 'A', label: 'NT-GWL-VH-010 | Health Dept | Last seen: 9 min ago' },
+      { lat: 26.196, lng: 78.175, color: '#10b981', marker: 'T', label: 'NT-GWL-VH-011 | GMC | Last seen: 6 min ago' },
+      { lat: 26.203, lng: 78.160, color: '#10b981', marker: 'T', label: 'NT-GWL-VH-012 | GMC | Last seen: 11 min ago' },
+      { lat: 26.245, lng: 78.178, color: '#10b981', marker: 'T', label: 'NT-GWL-VH-013 | GMC | Last seen: 5 min ago' },
+      { lat: 26.219, lng: 78.225, color: '#10b981', marker: 'T', label: 'NT-GWL-VH-014 | GMC | Last seen: 2 min ago' },
+      { lat: 26.188, lng: 78.191, color: '#10b981', marker: 'T', label: 'NT-GWL-VH-015 | GMC | Last seen: 10 min ago' },
+      { lat: 26.214, lng: 78.141, color: '#f59e0b', marker: 'I', label: 'NT-GWL-VH-016 | IDLE | Last seen: 2 days ago' },
+      { lat: 26.235, lng: 78.150, color: '#f59e0b', marker: 'I', label: 'NT-GWL-VH-017 | IDLE | Last seen: 3 days ago' },
+      { lat: 26.193, lng: 78.223, color: '#f59e0b', marker: 'I', label: 'NT-GWL-VH-018 | IDLE | Last seen: 1 day ago' },
+      { lat: 26.247, lng: 78.206, color: '#ef4444', marker: 'S', label: 'NT-GWL-VH-019 | SOS | Last seen: now' },
+      { lat: 26.183, lng: 78.168, color: '#ef4444', marker: 'M', label: 'NT-GWL-VH-020 | Maintenance | Last seen: now' }
+    ];
+
+    seedVehicles.forEach((vehicle) => {
+      const icon = L.divIcon({
+        className: '',
+        html: `<span class="custom-marker" style="background:${vehicle.color}">${vehicle.marker}</span>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9]
+      });
+
+      L.marker([vehicle.lat, vehicle.lng], { icon }).addTo(map).bindPopup(vehicle.label);
+    });
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>
