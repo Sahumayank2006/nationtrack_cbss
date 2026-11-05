@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 import { getVehicles } from '@/lib/automobiles-service';
 
@@ -8,6 +8,8 @@ import {
   getBookingStore,
   hasBookingConflict,
 } from './store';
+
+import type { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const status = request.nextUrl.searchParams.get('status') ?? 'ALL';
@@ -31,6 +33,8 @@ export async function POST(request: NextRequest) {
     startDate?: string;
     endDate?: string;
     estimatedDistance?: number;
+    vehicleId?: string;
+    vehicleType?: string;
   };
 
   if (
@@ -48,6 +52,8 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  const startDate = body.startDate;
+  const endDate = body.endDate;
   const stationVehicles = getVehicles().filter(
     (vehicle) => vehicle.locationLabel === body.stationId
   );
@@ -58,9 +64,17 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const vehicle = stationVehicles.find(
-    (candidate) => !hasBookingConflict(candidate.id, body.startDate!, body.endDate!)
-  );
+  const vehicle = body.vehicleId
+    ? stationVehicles.find(
+        (candidate) =>
+          candidate.id === body.vehicleId &&
+          candidate.status === 'IDLE' &&
+          candidate.vehicleType === body.vehicleType &&
+          !hasBookingConflict(candidate.id, startDate, endDate)
+      )
+    : stationVehicles.find(
+        (candidate) => !hasBookingConflict(candidate.id, startDate, endDate)
+      );
 
   if (!vehicle) {
     return NextResponse.json(
