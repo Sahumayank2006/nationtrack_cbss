@@ -18,7 +18,7 @@ export default function SettingsPage() {
         <div className="text-center">
           <h1 className="mb-3 text-3xl font-bold text-foreground md:text-4xl">Settings</h1>
           <p className="mx-auto max-w-2xl text-muted-foreground">
-            Configure NationTrack profile defaults and operational preferences.
+            Configure BharatTrack profile defaults and operational preferences.
           </p>
         </div>
 

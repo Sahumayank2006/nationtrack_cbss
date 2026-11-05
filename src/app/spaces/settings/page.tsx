@@ -18,7 +18,7 @@ export default function SpacesSettingsPage() {
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="spaces-profile">Profile Name</Label>
-            <Input id="spaces-profile" defaultValue="NationTrack Spaces Desk" />
+            <Input id="spaces-profile" defaultValue="BharatTrack Spaces Desk" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="booking-window">Default Booking Window (hours)</Label>

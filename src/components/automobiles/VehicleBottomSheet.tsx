@@ -100,7 +100,7 @@ export function VehicleBottomSheet({
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement('a');
       anchor.href = url;
-      anchor.download = `nationtrack-${vehicle?.registrationNumber ?? 'report'}.pdf`;
+      anchor.download = `bharattrack-${vehicle?.registrationNumber ?? 'report'}.pdf`;
       anchor.click();
       URL.revokeObjectURL(url);
     } finally {

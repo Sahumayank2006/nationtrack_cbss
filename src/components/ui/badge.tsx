@@ -14,7 +14,7 @@ const badgeVariants = cva(
         destructive:
           'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
         outline: 'text-foreground',
-        // Status variants for NationTrack
+        // Status variants for BharatTrack
         live: 'border-0 bg-status-live-bg text-status-live',
         development: 'border-0 bg-status-dev-bg text-status-dev',
         archived: 'border-0 bg-status-archived-bg text-status-archived',

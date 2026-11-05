@@ -163,7 +163,7 @@ const createSeedVehicle = (
       idlePercent: 100,
     },
     maintenanceRiskScore: Math.min(99, 45 + (i % 12) * 4),
-    photoUrl: '/NationTrack-placeholder.jpg',
+    photoUrl: '/BharatTrack-placeholder.jpg',
     specs: {
       fuelType:
         type.includes('JCB') || type.includes('Truck') || type.includes('Bus')
@@ -239,7 +239,7 @@ const createAssetFromSyntheticRecord = (
       idlePercent: 100,
     },
     maintenanceRiskScore: record.est_value < 10000 ? 95 : 45 + (index % 10) * 4,
-    photoUrl: '/NationTrack-placeholder.jpg',
+    photoUrl: '/BharatTrack-placeholder.jpg',
     specs: {
       fuelType: record.type.toLowerCase().includes('motorcycle') ? 'Petrol' : 'Diesel',
       capacity: `Value: ₹${record.est_value.toLocaleString('en-IN')}`,

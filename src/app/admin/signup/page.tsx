@@ -48,15 +48,15 @@ export default function AdminSignupPage() {
       <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 shadow-xl">
         <div className="mb-8 text-center">
           <Image
-            src="/NationTrack.png"
-            alt="NationTrack"
+            src="/BharatTrack.png"
+            alt="BharatTrack"
             width={56}
             height={56}
             className="mb-4 inline-block"
           />
           <h1 className="text-3xl font-bold text-slate-900">Create admin account</h1>
           <p className="text-sm text-muted-foreground">
-            Sign up to access the NationTrack control center
+            Sign up to access the BharatTrack control center
           </p>
         </div>
 

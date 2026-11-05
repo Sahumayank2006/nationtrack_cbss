@@ -7,7 +7,7 @@ if (workbox) {
   workbox.core.skipWaiting();
 
   workbox.precaching.precacheAndRoute([
-    { url: '/NationTrack.png', revision: '1' },
+    { url: '/BharatTrack.png', revision: '1' },
     { url: '/automobiles', revision: '1' },
   ]);
 

@@ -21,17 +21,17 @@ export function Footer() {
           <div className="space-y-3">
             <Link href="/" className="inline-flex items-center gap-2">
               <Image
-                src="/NationTrack.png"
-                alt="NationTrack logo"
+                src="/BharatTrack.png"
+                alt="BharatTrack logo"
                 width={32}
                 height={32}
                 priority
               />
-              <span className="text-base font-semibold text-foreground">NationTrack</span>
+              <span className="text-base font-semibold text-foreground">BharatTrack</span>
             </Link>
             <p className="text-sm leading-relaxed text-muted-foreground">
               A public asset intelligence platform for operational transparency and efficient
-              government resource utilization. Copyright {currentYear} NationTrack. All rights
+              government resource utilization. Copyright {currentYear} BharatTrack. All rights
               reserved.
             </p>
           </div>

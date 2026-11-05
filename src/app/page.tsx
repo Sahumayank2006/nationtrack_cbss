@@ -35,7 +35,7 @@ export default function HomePage() {
         setMetrics(dashboardMetrics);
         setHighlights(assets.slice(0, 3));
       } catch (error) {
-        console.error('Failed to load NationTrack home data', error);
+        console.error('Failed to load BharatTrack home data', error);
         setMetrics(null);
         setHighlights([]);
       } finally {
@@ -70,7 +70,7 @@ export default function HomePage() {
 
         <div className="container-wide relative z-20 py-16 text-center md:py-24">
           <h1 className="hero-dynamic-contrast hero-dynamic-contrast-strong mb-4 text-balance font-sans text-6xl font-extrabold tracking-tighter md:text-7xl lg:text-8xl">
-            NationTrack
+            BharatTrack
           </h1>
           <p className="hero-dynamic-contrast mb-3 text-xl font-medium md:text-2xl">
             Public Asset Intelligence for Operational Governance
@@ -253,7 +253,7 @@ export default function HomePage() {
           <div className="rounded-2xl border-2 border-azure-400 bg-azure-50 p-8 shadow-sm dark:border-azure-800 dark:bg-card md:p-10">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">
-                NationTrack Intelligence Layer
+                BharatTrack Intelligence Layer
               </h2>
               <p className="mx-auto max-w-2xl text-muted-foreground">
                 A modular control stack for transport and public-space governance.

@@ -19,13 +19,13 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'NationTrack - Public Asset Intelligence Platform',
+  title: 'BharatTrack - Public Asset Intelligence Platform',
   description:
     'A digital asset passport and booking intelligence layer for vehicles and public spaces.',
   icons: {
-    icon: '/NationTrack.png',
-    shortcut: '/NationTrack.png',
-    apple: '/NationTrack.png',
+    icon: '/BharatTrack.png',
+    shortcut: '/BharatTrack.png',
+    apple: '/BharatTrack.png',
   },
 };
 

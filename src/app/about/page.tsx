@@ -8,9 +8,9 @@ export default function AboutPage() {
     <>
       <section className="section-padding border-b border-border">
         <div className="container-narrow">
-          <h1 className="mb-6 text-3xl font-bold text-foreground md:text-4xl">About NationTrack</h1>
+          <h1 className="mb-6 text-3xl font-bold text-foreground md:text-4xl">About BharatTrack</h1>
           <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            NationTrack is a public asset intelligence platform designed for district operations. It
+            BharatTrack is a public asset intelligence platform designed for district operations. It
             helps teams manage vehicles, civic spaces, bookings, and auditable activity from one
             operational layer.
           </p>
@@ -27,7 +27,7 @@ export default function AboutPage() {
                 accountable, and measurable in real time.
               </p>
               <p className="leading-relaxed text-muted-foreground">
-                NationTrack combines operations dashboards, booking workflows, and audit trails so
+                BharatTrack combines operations dashboards, booking workflows, and audit trails so
                 decisions are grounded in trusted records instead of fragmented spreadsheets.
               </p>
             </div>
@@ -65,7 +65,7 @@ export default function AboutPage() {
             Operational Outcomes
           </h2>
           <p className="mx-auto mb-8 max-w-2xl text-center leading-relaxed text-muted-foreground">
-            NationTrack focuses on operational reliability, transparent workflows, and faster
+            BharatTrack focuses on operational reliability, transparent workflows, and faster
             response loops for district administration teams.
           </p>
 
@@ -90,7 +90,7 @@ export default function AboutPage() {
         <div className="container-narrow text-center">
           <h2 className="mb-4 text-2xl font-bold text-foreground md:text-3xl">Start Operating</h2>
           <p className="mx-auto mb-8 max-w-xl leading-relaxed text-muted-foreground">
-            Open NationTrack modules to manage passports, approve bookings, and monitor asset
+            Open BharatTrack modules to manage passports, approve bookings, and monitor asset
             compliance from a single workflow.
           </p>
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">

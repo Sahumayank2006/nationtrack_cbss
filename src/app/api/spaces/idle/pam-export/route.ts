@@ -41,7 +41,7 @@ export async function GET(request: Request) {
     status: 200,
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': `attachment; filename="nationtrack-pam-export-${new Date().toISOString().slice(0, 10)}.csv"`,
+      'Content-Disposition': `attachment; filename="bharattrack-pam-export-${new Date().toISOString().slice(0, 10)}.csv"`,
     },
   });
 }

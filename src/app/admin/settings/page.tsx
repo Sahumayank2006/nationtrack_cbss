@@ -63,7 +63,7 @@ export default function AdminSettingsPage() {
             </Label>
             <Input
               id="platformName"
-              defaultValue="NationTrack"
+              defaultValue="BharatTrack"
               className="border-border bg-background text-foreground"
             />
           </div>
@@ -84,7 +84,7 @@ export default function AdminSettingsPage() {
             </Label>
             <Input
               id="organization"
-              defaultValue="NationTrack Operations Cell"
+              defaultValue="BharatTrack Operations Cell"
               className="border-border bg-background text-foreground"
             />
           </div>
@@ -96,7 +96,7 @@ export default function AdminSettingsPage() {
               id="description"
               rows={4}
               className="border-border bg-background text-foreground"
-              defaultValue="NationTrack centralizes automobile fleet operations, approvals, compliance and emergency response orchestration."
+              defaultValue="BharatTrack centralizes automobile fleet operations, approvals, compliance and emergency response orchestration."
             />
           </div>
         </div>

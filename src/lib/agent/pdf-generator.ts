@@ -31,7 +31,7 @@ export async function generateSeizedVehiclePdf(
     color: rgb(0.08, 0.12, 0.22), // Dark Navy
   });
 
-  page.drawText('NATIONTRACK - SEIZED VEHICLE LEGAL REPORT', {
+  page.drawText('BHARATTRACK - SEIZED VEHICLE LEGAL REPORT', {
     x: 50,
     y: y - 24,
     size: 15,

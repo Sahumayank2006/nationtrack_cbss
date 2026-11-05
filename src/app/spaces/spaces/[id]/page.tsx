@@ -203,7 +203,7 @@ export default function SpacePassportPage({ params }: Props) {
           <aside className="space-y-5 lg:col-span-4">
             <div className="relative aspect-video overflow-hidden rounded-2xl border border-border/70 bg-muted">
               <Image
-                src={space.photos[0] || '/NationTrack-placeholder.jpg'}
+                src={space.photos[0] || '/BharatTrack-placeholder.jpg'}
                 alt={`${space.name} preview`}
                 fill
                 className="object-cover"

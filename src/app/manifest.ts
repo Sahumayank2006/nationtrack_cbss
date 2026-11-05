@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'NationTrack Automobile Intelligence',
-    short_name: 'NationTrack',
+    name: 'BharatTrack Automobile Intelligence',
+    short_name: 'BharatTrack',
     description: 'GovTech asset intelligence platform for live automobile operations.',
     start_url: '/automobiles',
     display: 'standalone',
@@ -12,12 +12,12 @@ export default function manifest(): MetadataRoute.Manifest {
     lang: 'en-IN',
     icons: [
       {
-        src: '/NationTrack.png',
+        src: '/BharatTrack.png',
         sizes: '192x192',
         type: 'image/png',
       },
       {
-        src: '/NationTrack.png',
+        src: '/BharatTrack.png',
         sizes: '512x512',
         type: 'image/png',
       },

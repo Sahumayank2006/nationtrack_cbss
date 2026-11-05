@@ -18,7 +18,7 @@ export default function AutomobileSettingsPage() {
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label htmlFor="fleet-name">Fleet Label</Label>
-            <Input id="fleet-name" defaultValue="NationTrack Automobile Desk" />
+            <Input id="fleet-name" defaultValue="BharatTrack Automobile Desk" />
           </div>
           <div className="space-y-2">
             <Label htmlFor="alert-window">Critical Alert Window (minutes)</Label>

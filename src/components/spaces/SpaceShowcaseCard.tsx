@@ -63,7 +63,7 @@ export function SpaceShowcaseCard({
           )}
         >
           <Image
-            src={space.photos[0] || '/NationTrack-placeholder.jpg'}
+            src={space.photos[0] || '/BharatTrack-placeholder.jpg'}
             alt={`${space.name} preview`}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"

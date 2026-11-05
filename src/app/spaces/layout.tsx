@@ -42,11 +42,11 @@ export default function SpacesLayout({ children }: { children: React.ReactNode }
           <Link
             href="/"
             className="inline-flex items-center gap-2"
-            aria-label="Go to NationTrack home"
+            aria-label="Go to BharatTrack home"
           >
-            <Image src="/NationTrack.png" alt="NationTrack" width={24} height={24} priority />
+            <Image src="/BharatTrack.png" alt="BharatTrack" width={24} height={24} priority />
             <span className="w-0 overflow-hidden whitespace-nowrap text-[1.5rem] font-semibold leading-none text-foreground opacity-0 transition-all duration-200 group-focus-within/sidebar:w-[7.8rem] group-focus-within/sidebar:opacity-100 group-hover/sidebar:w-[7.8rem] group-hover/sidebar:opacity-100">
-              NationTrack
+              BharatTrack
             </span>
           </Link>
         </div>

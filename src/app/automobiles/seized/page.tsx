@@ -119,7 +119,7 @@ export default function SeizedVehiclesAgentPage() {
                     Seized Vehicles Legal AI Agent
                   </h1>
                   <p className="text-xs text-muted-foreground">
-                    NationTrack Intelligence Layer &bull; BNSS 2023, BNS 2023 & Special Laws
+                    BharatTrack Intelligence Layer &bull; BNSS 2023, BNS 2023 & Special Laws
                     Compliance
                   </p>
                 </div>

@@ -95,7 +95,7 @@ export default function AutomobileReportsPage() {
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement('a');
       anchor.href = url;
-      anchor.download = 'nationtrack-utilization.csv';
+      anchor.download = 'bharattrack-utilization.csv';
       anchor.click();
       URL.revokeObjectURL(url);
     } finally {

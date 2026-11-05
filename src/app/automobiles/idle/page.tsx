@@ -114,7 +114,7 @@ export default function AutomobileIdlePage() {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = `nationtrack-gem-export-${new Date().toISOString().slice(0, 10)}.csv`;
+    anchor.download = `bharattrack-gem-export-${new Date().toISOString().slice(0, 10)}.csv`;
     anchor.click();
     URL.revokeObjectURL(url);
   };

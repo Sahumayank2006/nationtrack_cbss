@@ -145,8 +145,8 @@ export function PoliceStationPanel({ station, onClose, onBookVehicle }: PoliceSt
 
             <div className="relative h-44 w-full overflow-hidden border-b border-border bg-neutral-100 dark:bg-neutral-900">
               <Image
-                src="/NationTrack-placeholder.jpg"
-                alt="NationTrack placeholder image for police station"
+                src="/BharatTrack-placeholder.jpg"
+                alt="BharatTrack placeholder image for police station"
                 fill
                 sizes="380px"
                 className="object-cover"

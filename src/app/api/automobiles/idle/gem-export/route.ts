@@ -40,7 +40,7 @@ export async function GET() {
   return new Response(csvRows.join('\n'), {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
-      'Content-Disposition': `attachment; filename="nationtrack-gem-export-${date}.csv"`,
+      'Content-Disposition': `attachment; filename="bharattrack-gem-export-${date}.csv"`,
     },
   });
 }

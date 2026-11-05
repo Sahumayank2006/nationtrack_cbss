@@ -2,8 +2,8 @@
   "$schema": "https://ui.shadcn.com/schema.json",
   "name": "nationtrack",
   "version": "1.0.0",
-  "description": "NationTrack Design System - Operational governance interface components",
-  "author": "NationTrack Team",
+  "description": "BharatTrack Design System - Operational governance interface components",
+  "author": "BharatTrack Team",
   "license": "MIT",
   "components": [
     {

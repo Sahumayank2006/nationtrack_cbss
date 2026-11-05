@@ -104,7 +104,7 @@ export default function AutomobilePassportPage({ params }: Props) {
               </p>
               <h1 className="mt-1 text-3xl font-bold text-foreground">{asset.name}</h1>
               <p className="mt-2 max-w-2xl text-muted-foreground">
-                NationTrack digital passport for operational and compliance tracking.
+                BharatTrack digital passport for operational and compliance tracking.
               </p>
             </div>
             <Badge className="bg-azure-600 text-white">{asset.status}</Badge>

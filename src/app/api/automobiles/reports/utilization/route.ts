@@ -9,7 +9,7 @@ export async function GET() {
   const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
 
   page.drawRectangle({ x: 0, y: 530, width: 842, height: 65, color: rgb(0.04, 0.33, 0.57) });
-  page.drawText('NationTrack Automobile Utilization Summary', {
+  page.drawText('BharatTrack Automobile Utilization Summary', {
     x: 32,
     y: 560,
     size: 18,
@@ -53,7 +53,7 @@ export async function GET() {
   return new Response(body, {
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="nationtrack-utilization.pdf"',
+      'Content-Disposition': 'attachment; filename="bharattrack-utilization.pdf"',
     },
   });
 }
