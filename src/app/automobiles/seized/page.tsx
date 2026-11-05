@@ -2,10 +2,9 @@
 
 import {
   AlertCircle,
-  ArrowLeft,
-  Bot,
   Car,
   CheckCircle2,
+  ChevronRight,
   Clock,
   Database,
   FileSearch,
@@ -14,9 +13,7 @@ import {
   MessageSquare,
   Search,
   Shield,
-  Sparkles,
 } from 'lucide-react';
-import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { AgentChatAssistant } from '@/components/agent/AgentChatAssistant';
@@ -27,17 +24,18 @@ import { VisualTimeline } from '@/components/agent/VisualTimeline';
 import { Button } from '@/components/ui/button';
 import { runAgentInvestigation } from '@/lib/agent/orchestrator';
 import { getAllSyntheticVehicles } from '@/lib/agent/tools';
+
 import type { AgentStepTrace, FullInvestigationResult } from '@/types/seized-agent';
 
 const QUICK_PRESETS = [
-  { no: 'MP07-CA-1024', label: 'Theft Recovered (BNS 303)', tag: 'Locked' },
-  { no: 'MP07-EX-2010', label: 'MP Excise 47-A/47-D', tag: 'Rajyasaat' },
-  { no: 'MP07-ND-3011', label: 'NDPS Act Narcotics', tag: 'Locked' },
-  { no: 'MP07-AB-4008', label: 'Abandoned (Proclaimed)', tag: 'Auction Ripe' },
-  { no: 'MP07-RU-5009', label: 'Rusted (< ₹10k BNSS 505)', tag: 'Early Sale' },
-  { no: 'MP07-CV-6012', label: 'Trial Conviction', tag: 'Rajyasaat' },
-  { no: 'MP07-HG-5532', label: 'Accident Death (106(1))', tag: 'Overdue' },
-  { no: 'MP07-XY-3301', label: 'Fake Chassis / Forgery', tag: 'Evidence' },
+  { no: 'MP07-CA-1024', label: 'Theft recovered', tag: 'BNS 303', icon: Shield },
+  { no: 'MP07-EX-2010', label: 'Excise case', tag: '47-A / 47-D', icon: Gavel },
+  { no: 'MP07-ND-3011', label: 'Narcotics seizure', tag: 'NDPS Act', icon: FileSearch },
+  { no: 'MP07-AB-4008', label: 'Abandoned vehicle', tag: 'Auction review', icon: Car },
+  { no: 'MP07-RU-5009', label: 'Low-value vehicle', tag: 'BNSS 505', icon: Clock },
+  { no: 'MP07-CV-6012', label: 'Trial conviction', tag: 'Confiscation', icon: CheckCircle2 },
+  { no: 'MP07-HG-5532', label: 'Fatal accident', tag: 'Overdue review', icon: AlertCircle },
+  { no: 'MP07-XY-3301', label: 'Chassis concern', tag: 'Evidence check', icon: Search },
 ];
 
 export default function SeizedVehiclesAgentPage() {
@@ -93,34 +91,34 @@ export default function SeizedVehiclesAgentPage() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-background pb-20 text-foreground">
-      {/* Top Banner: Synthetic CCTNS Demo Indicator */}
-      <div className="border-b border-amber-500/20 bg-amber-500/10 px-4 py-2 text-center text-xs font-semibold text-amber-700 dark:text-amber-400">
-        Demo - Synthetic Data, simulated CCTNS repository (Madhya Pradesh / Gwalior Commission)
+    <div className="wooden-desk min-h-screen pb-16 text-ink">
+      <div className="wooden-topbar">
+        <div className="container-wide flex items-center justify-between gap-4 py-3">
+          <div className="flex items-center gap-2 text-sm font-semibold text-paper">
+            <Shield className="h-4 w-4" aria-label="Shield logo" />
+            Seized Vehicle Review
+          </div>
+          <span className="rounded-full border border-brass/60 bg-black/10 px-3 py-1 text-xs font-medium text-paper">
+            Demo data · Gwalior, MP
+          </span>
+        </div>
       </div>
 
-      <div className="container-wide space-y-8 py-8">
+      <div className="container-wide space-y-6 py-6 sm:py-8">
         {/* Navigation & Title Header */}
-        <div className="flex flex-col gap-4 border-b border-border/60 pb-6 md:flex-row md:items-center md:justify-between">
+        <div className="wooden-tile flex flex-col gap-5 p-5 md:flex-row md:items-center md:justify-between md:p-6">
           <div className="space-y-1">
             <div className="flex items-center gap-3">
-              <Link
-                href="/automobiles"
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/80 bg-card text-muted-foreground transition-colors hover:text-foreground"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Link>
               <div className="flex items-center gap-2.5">
-                <div className="shadow-xs flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brass text-white">
                   <Shield className="h-5 w-5" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">
-                    Seized Vehicles Legal AI Agent
+                  <h1 className="font-serif text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+                    Seized Vehicle Review
                   </h1>
-                  <p className="text-xs text-muted-foreground">
-                    BharatTrack Intelligence Layer &bull; BNSS 2023, BNS 2023 & Special Laws
-                    Compliance
+                  <p className="text-sm text-ink-muted">
+                    Check custody, deadlines and next legal step.
                   </p>
                 </div>
               </div>
@@ -129,38 +127,43 @@ export default function SeizedVehiclesAgentPage() {
 
           {/* Key Metric Highlights */}
           <div className="flex flex-wrap items-center gap-2">
-            <div className="shadow-xs flex items-center gap-2 rounded-xl border border-border/80 bg-card px-3 py-1.5">
-              <Database className="h-4 w-4 text-primary" />
-              <div className="text-left text-xs">
-                <span className="text-muted-foreground">Indexed Fleet: </span>
-                <span className="font-bold text-foreground">{allVehicles.length} Vehicles</span>
+            <div className="flex items-center gap-2 rounded-xl border border-border/70 bg-background px-3 py-2">
+              <Database className="h-4 w-4 text-brass-ink" aria-label="Indexed fleet" />
+              <div className="text-left">
+                <p className="text-[11px] text-ink-muted">Indexed fleet</p>
+                <p className="text-sm font-bold text-ink">{allVehicles.length} vehicles</p>
               </div>
             </div>
 
-            <div className="shadow-xs flex items-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-1.5">
-              <Clock className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-              <div className="text-left text-xs">
-                <span className="text-muted-foreground">BNSS 497 Overdue: </span>
-                <span className="font-bold text-amber-600 dark:text-amber-400">
-                  {overdue497Count}
-                </span>
+            <div className="flex items-center gap-2 rounded-xl border border-burnt/30 bg-burnt/10 px-3 py-2">
+              <Clock className="h-4 w-4 text-burnt" aria-label="Overdue cases" />
+              <div className="text-left">
+                <p className="text-[11px] text-ink-muted">BNSS 497 overdue</p>
+                <p className="text-sm font-bold text-burnt">{overdue497Count} cases</p>
               </div>
             </div>
 
-            <div className="shadow-xs flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-3 py-1.5">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              <div className="text-left text-xs">
-                <span className="text-muted-foreground">Rajyasaat Vested: </span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                  {rajyasaatCount}
-                </span>
+            <div className="flex items-center gap-2 rounded-xl border border-forest/30 bg-forest/10 px-3 py-2">
+              <CheckCircle2 className="h-4 w-4 text-forest" aria-label="Confiscated cases" />
+              <div className="text-left">
+                <p className="text-[11px] text-ink-muted">Confiscation vested</p>
+                <p className="text-sm font-bold text-forest">{rajyasaatCount} cases</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Search Bar & Preset Quick Chips */}
-        <div className="space-y-4 rounded-2xl border border-border/80 bg-card p-6 shadow-sm">
+        <div className="wooden-tile space-y-5 p-5 sm:p-6">
+          <div>
+            <div className="flex items-center gap-2">
+              <Search className="h-4 w-4 text-brass-ink" aria-label="Search" />
+              <h2 className="text-sm font-bold text-ink">Find a seized vehicle</h2>
+            </div>
+            <p className="mt-1 text-sm text-ink-muted">
+              Enter a registration number or choose a quick example.
+            </p>
+          </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-3.5 h-4 w-4 text-muted-foreground" />
@@ -173,8 +176,8 @@ export default function SeizedVehiclesAgentPage() {
                     startInvestigation(vehicleInput);
                   }
                 }}
-                placeholder="Enter Registration (e.g. MP07-CA-1024, MP07-EX-2010, MP07-ND-3011)..."
-                className="shadow-xs w-full rounded-xl border border-border/80 bg-background py-3 pl-11 pr-4 font-mono text-sm uppercase tracking-wider text-foreground placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                placeholder="Enter registration number, e.g. MP07-CA-1024"
+                className="w-full rounded-xl border border-oak bg-paper py-3 pl-11 pr-4 font-mono text-sm uppercase tracking-wider text-ink placeholder:normal-case placeholder:tracking-normal placeholder:text-ink-muted focus:border-brass focus:outline-none focus:ring-2 focus:ring-brass/30"
               />
             </div>
 
@@ -182,22 +185,24 @@ export default function SeizedVehiclesAgentPage() {
               onClick={() => startInvestigation(vehicleInput)}
               disabled={isInvestigating || !vehicleInput.trim()}
               size="lg"
-              className="gap-2 bg-primary px-6 font-semibold text-primary-foreground"
+              className="gap-2 bg-brass px-6 font-semibold text-white hover:bg-brass-ink"
             >
-              <Bot className="h-4 w-4" />
-              {isInvestigating ? 'Investigating...' : 'Investigate Vehicle'}
+              {isInvestigating ? (
+                <Clock className="h-4 w-4 animate-pulse" />
+              ) : (
+                <FileSearch className="h-4 w-4" />
+              )}
+              {isInvestigating ? 'Reviewing case...' : 'Start case review'}
             </Button>
           </div>
 
           {/* Quick preset scenario chips */}
-          <div className="space-y-2 pt-1">
-            <span className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Master Table Demo Scenarios (Click to test):
-            </span>
-            <div className="flex flex-wrap gap-2">
+          <div className="space-y-3 border-t border-border/60 pt-4">
+            <span className="text-sm font-semibold text-ink">Quick examples</span>
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
               {QUICK_PRESETS.map((preset) => {
                 const isSelected = vehicleInput.toUpperCase() === preset.no;
+                const PresetIcon = preset.icon;
                 return (
                   <button
                     key={preset.no}
@@ -205,17 +210,31 @@ export default function SeizedVehiclesAgentPage() {
                       setVehicleInput(preset.no);
                       startInvestigation(preset.no);
                     }}
-                    className={`flex cursor-pointer items-center gap-2 rounded-xl border px-3 py-1.5 text-xs font-medium transition-all ${
+                    className={`group flex min-w-0 items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition-all ${
                       isSelected
-                        ? 'shadow-xs border-primary bg-primary/10 font-bold text-primary'
-                        : 'border-border/80 bg-muted/40 text-foreground hover:border-primary/50 hover:bg-muted/70'
+                        ? 'border-brass bg-brass/10 text-brass-ink shadow-sm'
+                        : 'border-oak bg-paper text-ink hover:border-brass/50 hover:bg-brass/5'
                     }`}
                   >
-                    <span className="font-mono">{preset.no}</span>
-                    <span className="text-[11px] text-muted-foreground">&bull; {preset.label}</span>
-                    <span className="py-0.2 rounded bg-background/80 px-1.5 text-[10px] font-semibold text-primary">
-                      {preset.tag}
+                    <span
+                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                        isSelected ? 'bg-brass text-white' : 'bg-oak/20 text-ink-muted'
+                      }`}
+                    >
+                      <PresetIcon className="h-4 w-4" />
                     </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate font-mono text-[11px] font-bold">
+                        {preset.no}
+                      </span>
+                      <span className="block truncate text-[11px] text-ink-muted">
+                        {preset.label}
+                      </span>
+                    </span>
+                    <ChevronRight
+                      className="h-3.5 w-3.5 shrink-0 text-ink-muted transition-transform group-hover:translate-x-0.5"
+                      aria-label="Open example"
+                    />
                   </button>
                 );
               })}
@@ -224,42 +243,42 @@ export default function SeizedVehiclesAgentPage() {
         </div>
 
         {/* View Mode Tabs */}
-        <div className="flex items-center justify-between border-b border-border/60">
-          <div className="flex items-center gap-2">
+        <div className="overflow-x-auto">
+          <div className="flex min-w-max items-center gap-1">
             <button
               onClick={() => setActiveTab('single')}
               className={`flex cursor-pointer items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
                 activeTab === 'single'
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground'
+                  ? 'rounded-t-xl bg-brass text-white'
+                  : 'rounded-t-xl text-paper hover:bg-black/10'
               }`}
             >
               <FileSearch className="h-4 w-4" />
-              Autonomous Case Investigation
+              Case review
             </button>
 
             <button
               onClick={() => setActiveTab('batch')}
               className={`flex cursor-pointer items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
                 activeTab === 'batch'
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground'
+                  ? 'rounded-t-xl bg-brass text-white'
+                  : 'rounded-t-xl text-paper hover:bg-black/10'
               }`}
             >
               <Layers className="h-4 w-4" />
-              Batch Priority Queue (5–10)
+              Batch review
             </button>
 
             <button
               onClick={() => setActiveTab('chat')}
               className={`flex cursor-pointer items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
                 activeTab === 'chat'
-                  ? 'border-primary text-primary'
-                  : 'border-transparent text-muted-foreground hover:text-foreground'
+                  ? 'rounded-t-xl bg-brass text-white'
+                  : 'rounded-t-xl text-paper hover:bg-black/10'
               }`}
             >
               <MessageSquare className="h-4 w-4" />
-              AI Legal Chat Assistant
+              Ask the assistant
             </button>
           </div>
         </div>
@@ -297,17 +316,39 @@ export default function SeizedVehiclesAgentPage() {
               </div>
             )}
 
-            {/* Live Agent Trace */}
-            {traces.length > 0 && (
-              <AgentLiveTrace traces={traces} isInvestigating={isInvestigating} />
-            )}
-
-            {/* Final Case Summary & Detailed Findings */}
             {currentResult && !isInvestigating && (
               <>
-                <VisualTimeline result={currentResult} />
                 <CaseSummaryCard result={currentResult} />
+                <VisualTimeline result={currentResult} />
               </>
+            )}
+
+            {isInvestigating && (
+              <div className="wooden-tile space-y-4 p-5 sm:p-6" aria-label="Loading case review">
+                <div className="h-6 w-48 animate-pulse rounded bg-oak/20" />
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="h-20 animate-pulse rounded-xl bg-oak/10" />
+                  <div className="h-20 animate-pulse rounded-xl bg-oak/10" />
+                  <div className="h-20 animate-pulse rounded-xl bg-oak/10" />
+                </div>
+                <div className="h-16 animate-pulse rounded-xl bg-oak/10" />
+              </div>
+            )}
+
+            {!isInvestigating && !currentResult && !errorMessage && (
+              <div className="wooden-tile flex flex-col items-center justify-center p-12 text-center">
+                <FileSearch className="h-10 w-10 text-brass-ink" aria-label="Empty case search" />
+                <h2 className="mt-4 font-serif text-xl font-semibold text-ink">
+                  Search a registration number to begin
+                </h2>
+                <p className="mt-2 text-sm text-ink-muted">
+                  Choose a quick example above or enter a registration number.
+                </p>
+              </div>
+            )}
+
+            {traces.length > 0 && (
+              <AgentLiveTrace traces={traces} isInvestigating={isInvestigating} />
             )}
           </div>
         )}
@@ -332,6 +373,9 @@ export default function SeizedVehiclesAgentPage() {
           />
         )}
       </div>
+      <footer className="container-wide pt-4 text-center text-xs text-paper/80">
+        Study tool, not legal advice. Verify with the official Gazette and an advocate.
+      </footer>
     </div>
   );
 }

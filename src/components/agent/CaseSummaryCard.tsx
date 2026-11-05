@@ -1,30 +1,24 @@
 'use client';
 
 import {
-  AlertOctagon,
   AlertTriangle,
-  ArrowRight,
-  BookOpen,
-  Calendar,
-  CheckCircle2,
-  Clock,
+  CalendarDays,
+  ClipboardCheck,
+  Clock3,
   Download,
-  FileCheck2,
   FileText,
   Gavel,
   Info,
-  Loader2,
-  Lock,
+  LockKeyhole,
   MapPin,
   Scale,
-  ShieldAlert,
-  Sparkles,
-  Unlock,
+  UnlockKeyhole,
 } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { generateSeizedVehiclePdf } from '@/lib/agent/pdf-generator';
+
 import type { FullInvestigationResult } from '@/types/seized-agent';
 
 interface CaseSummaryCardProps {
@@ -34,8 +28,14 @@ interface CaseSummaryCardProps {
 export const CaseSummaryCard: React.FC<CaseSummaryCardProps> = ({ result }) => {
   const [downloadingPdf, setDownloadingPdf] = useState(false);
   const [copiedAction, setCopiedAction] = useState(false);
-
+  const [showReuseRule, setShowReuseRule] = useState(false);
   const { record, legal_map, custody, disposal_route, status, reasoning } = result;
+  const criticalAlert = reasoning.alerts.find((alert) => alert.level === 'critical');
+  const custodyLimit = 182;
+  const custodyProgress = Math.min(
+    100,
+    Math.round((custody.days_since_production / custodyLimit) * 100)
+  );
 
   const handleDownloadPdf = async () => {
     try {
@@ -43,387 +43,241 @@ export const CaseSummaryCard: React.FC<CaseSummaryCardProps> = ({ result }) => {
       const pdfBytes = await generateSeizedVehiclePdf(result);
       const blob = new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Legal_Report_${record.vehicle_no}_${record.fir_no.replace('/', '-')}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `BharatTrack_${record.vehicle_no}_${record.fir_no.replace('/', '-')}.pdf`;
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
       URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('PDF generation failed:', err);
     } finally {
       setDownloadingPdf(false);
     }
   };
 
-  const handleCopyAction = () => {
-    const text = `ACTION: ${reasoning.next_action}\nAUTHORITY: ${reasoning.action_authority}\nCASE: ${record.vehicle_no} (${record.fir_no})\nSTEPS:\n${reasoning.action_steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}`;
-    navigator.clipboard.writeText(text);
+  const handleCopyAction = async () => {
+    const text = `${reasoning.next_action}\nAuthority: ${reasoning.action_authority}\n${reasoning.action_steps
+      .map((step, index) => `${index + 1}. ${step}`)
+      .join('\n')}`;
+    await navigator.clipboard.writeText(text);
     setCopiedAction(true);
-    setTimeout(() => setCopiedAction(false), 2500);
+    window.setTimeout(() => setCopiedAction(false), 2200);
   };
 
-  const getStatusBadge = () => {
-    if (status.status === 'Fully Usable (Rajyasaat)') {
-      return (
-        <div className="flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-          <Unlock className="h-4 w-4" />
-          <span>FULLY USABLE (RAJYASAAT)</span>
-        </div>
-      );
-    }
-    if (status.status === 'Conditionally Usable') {
-      return (
-        <div className="flex items-center gap-2 rounded-xl border border-blue-500/40 bg-blue-500/10 px-3.5 py-1.5 text-xs font-bold text-blue-600 dark:text-blue-400">
-          <Scale className="h-4 w-4" />
-          <span>CONDITIONALLY USABLE</span>
-        </div>
-      );
-    }
-    return (
-      <div className="flex items-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 px-3.5 py-1.5 text-xs font-bold text-amber-600 dark:text-amber-400">
-        <Lock className="h-4 w-4" />
-        <span>LEGALLY LOCKED</span>
-      </div>
-    );
-  };
-
-  const sunderbhaiPercentage = Math.min(
-    100,
-    Math.round((custody.days_since_production / 182) * 100)
-  );
+  const statusLocked = status.status === 'Legally Locked';
 
   return (
     <div className="space-y-6">
-      {/* Top Header Card */}
-      <div className="rounded-2xl border border-border/80 bg-card p-6 shadow-sm">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="font-mono text-2xl font-extrabold tracking-tight text-foreground">
+      <section className="wooden-tile sticky top-4 z-20 p-5 sm:p-6" aria-label="Case summary">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="font-mono text-2xl font-bold tracking-tight text-ink sm:text-3xl">
                 {record.vehicle_no}
               </span>
-              {getStatusBadge()}
-              {record.special_law !== 'None' && (
-                <span className="rounded-lg border border-purple-500/20 bg-purple-500/10 px-2.5 py-1 text-xs font-semibold text-purple-600 dark:text-purple-400">
-                  Special Law: {record.special_law}
-                </span>
-              )}
+              <span
+                className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold ${
+                  statusLocked
+                    ? 'border-brick/30 bg-brick/10 text-brick'
+                    : status.status === 'Fully Usable (Rajyasaat)'
+                      ? 'border-forest/30 bg-forest/10 text-forest'
+                      : 'border-brass/30 bg-brass/10 text-brass-ink'
+                }`}
+              >
+                {statusLocked ? (
+                  <LockKeyhole className="h-3.5 w-3.5" aria-label="Locked status" />
+                ) : status.status === 'Fully Usable (Rajyasaat)' ? (
+                  <UnlockKeyhole className="h-3.5 w-3.5" aria-label="Usable status" />
+                ) : (
+                  <Scale className="h-3.5 w-3.5" aria-label="Conditional status" />
+                )}
+                {statusLocked ? 'Legally locked' : status.status}
+              </span>
             </div>
-            <p className="text-sm font-medium text-muted-foreground">
-              {record.make_model} &bull;{' '}
-              <span className="font-semibold text-foreground/80">{record.type}</span> &bull;
-              Estimated Value: ₹{record.est_value.toLocaleString('en-IN')}
+            <p className="mt-2 text-sm font-medium text-ink">
+              {record.make_model} <span className="text-ink-muted">·</span> {record.type}{' '}
+              <span className="text-ink-muted">·</span> ₹{record.est_value.toLocaleString('en-IN')}
             </p>
-            <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1 font-mono">
-                <FileText className="h-3.5 w-3.5 text-primary" /> {record.fir_no}
+            <div className="mt-4 grid gap-3 text-sm text-ink-muted sm:grid-cols-3">
+              <span className="flex items-center gap-2">
+                <FileText className="h-4 w-4 text-brass-ink" aria-label="FIR number" />
+                <span className="font-mono">{record.fir_no}</span>
               </span>
-              <span className="flex items-center gap-1">
-                <MapPin className="h-3.5 w-3.5 text-primary" /> {record.police_station},{' '}
-                {record.district} ({record.state})
+              <span className="flex items-center gap-2">
+                <MapPin className="h-4 w-4 text-brass-ink" aria-label="Police station" />
+                {record.police_station}
               </span>
-              <span className="flex items-center gap-1">
-                <Calendar className="h-3.5 w-3.5 text-primary" /> Seized: {record.seizure_date}
+              <span className="flex items-center gap-2">
+                <CalendarDays className="h-4 w-4 text-brass-ink" aria-label="Seizure date" />
+                Seized {record.seizure_date}
               </span>
             </div>
           </div>
-
-          <div className="flex flex-wrap items-center gap-2.5">
-            <Button
-              onClick={handleDownloadPdf}
-              disabled={downloadingPdf}
-              className="gap-2 bg-primary font-medium text-primary-foreground hover:bg-primary/90"
-            >
-              {downloadingPdf ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Generating PDF...
-                </>
-              ) : (
-                <>
-                  <Download className="h-4 w-4" />
-                  Download Case PDF
-                </>
-              )}
-            </Button>
-          </div>
+          <Button
+            variant="outline"
+            onClick={handleDownloadPdf}
+            disabled={downloadingPdf}
+            className="shrink-0 gap-2 border-brass bg-paper text-brass-ink hover:bg-brass/10"
+          >
+            <Download className="h-4 w-4" aria-label="Download PDF" />
+            {downloadingPdf ? 'Preparing PDF…' : 'Download PDF'}
+          </Button>
         </div>
-      </div>
+      </section>
 
-      {/* Grid: 2 Columns */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Left Column: Legal Mapper & Custody (2 cols wide on large) */}
-        <div className="space-y-6 lg:col-span-2">
-          {/* Statutory Mapping Box */}
-          <div className="space-y-4 rounded-2xl border border-border/80 bg-card p-6 shadow-sm">
-            <div className="flex items-center justify-between border-b border-border/50 pb-3">
-              <div className="flex items-center gap-2.5">
-                <Scale className="h-5 w-5 text-primary" />
-                <h3 className="text-base font-bold text-foreground">
-                  BNS & BNSS Statutory Provisions
-                </h3>
-              </div>
-              <span className="rounded bg-muted px-2 py-0.5 font-mono text-xs text-muted-foreground">
-                Master Table Scenario #{legal_map.master_table_row}
-              </span>
+      <section className="wooden-tile relative overflow-hidden p-5 sm:p-6">
+        {criticalAlert && (
+          <div className="-mx-5 -mt-5 mb-5 flex items-center gap-2 bg-brick px-5 py-2.5 text-sm font-bold text-white sm:-mx-6 sm:-mt-6 sm:px-6">
+            <AlertTriangle className="h-4 w-4" aria-label="Critical alert" />
+            {criticalAlert.title}
+          </div>
+        )}
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-2 text-sm font-bold text-brass-ink">
+              <ClipboardCheck className="h-5 w-5" aria-label="Action plan" />
+              What to do now
             </div>
+            <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight text-ink">
+              {reasoning.next_action}
+            </h2>
+            <p className="mt-2 text-sm text-ink-muted">
+              Authority:{' '}
+              <span className="font-semibold text-ink">{reasoning.action_authority}</span>
+            </p>
+            <ol className="mt-5 grid gap-3 sm:grid-cols-3">
+              {reasoning.action_steps.slice(0, 3).map((step, index) => (
+                <li
+                  key={`${record.vehicle_no}-action-${index}`}
+                  className="flex gap-2 text-sm text-ink"
+                >
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brass text-xs font-bold text-white">
+                    {index + 1}
+                  </span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <Button
+            onClick={handleCopyAction}
+            className="shrink-0 gap-2 bg-brass text-white hover:bg-brass-ink"
+          >
+            <ClipboardCheck className="h-4 w-4" aria-label="Copy action plan" />
+            {copiedAction ? 'Copied' : 'Copy action plan'}
+          </Button>
+        </div>
+      </section>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="space-y-1 rounded-xl border border-border/60 bg-muted/30 p-3.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  BNS 2023 Offence Section
-                </span>
-                <div className="text-sm font-bold text-foreground">{legal_map.bns_section}</div>
-                <p className="text-xs text-muted-foreground">{legal_map.offence_brief}</p>
+      <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
+        <div className="space-y-6">
+          <section className="wooden-tile p-5 sm:p-6">
+            <div className="flex items-center gap-2">
+              <Scale className="h-5 w-5 text-brass-ink" aria-label="Legal basis" />
+              <h2 className="font-serif text-xl font-semibold text-ink">Legal basis</h2>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="paper-inset p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                  Offence
+                </p>
+                <p className="mt-1 font-mono text-sm font-bold text-ink">{legal_map.bns_section}</p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  {legal_map.offence_brief}
+                </p>
               </div>
-
-              <div className="space-y-1 rounded-xl border border-border/60 bg-muted/30 p-3.5">
-                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  Seizure & Disposal Law
-                </span>
-                <div className="text-sm font-bold text-foreground">
+              <div className="paper-inset p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-ink-muted">
+                  Governing law
+                </p>
+                <p className="mt-1 font-mono text-sm font-bold text-ink">
                   {legal_map.seizure_disposal_law}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Governing procedural code and special enactments
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+                  Custody and disposal must follow the court-led procedure.
                 </p>
               </div>
             </div>
-
-            {/* Plain explanation */}
-            <div className="space-y-1.5 rounded-xl border border-primary/20 bg-primary/5 p-4">
-              <div className="flex items-center gap-2 text-xs font-bold text-primary">
-                <BookOpen className="h-4 w-4" />
-                <span>Plain Language Legal Explanation</span>
-              </div>
-              <p className="font-sans text-xs leading-relaxed text-foreground/90">
-                {legal_map.plain_explanation}
-              </p>
-            </div>
-
-            {/* Government Use Rule */}
-            <div className="space-y-1.5 rounded-xl border border-border/60 bg-muted/20 p-4">
-              <div className="flex items-center gap-2 text-xs font-bold text-foreground">
-                <Info className="h-4 w-4 text-primary" />
-                <span>Government Requisition & Reuse Rule (PDF Section 8)</span>
-              </div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
+            <p className="mt-4 text-sm leading-relaxed text-ink">{legal_map.plain_explanation}</p>
+            <button
+              type="button"
+              onClick={() => setShowReuseRule((open) => !open)}
+              className="mt-4 flex w-full items-center justify-between border-t border-oak pt-4 text-left text-sm font-semibold text-ink"
+              aria-expanded={showReuseRule}
+            >
+              <span className="flex items-center gap-2">
+                <Info className="h-4 w-4 text-brass-ink" aria-label="Information" />
+                Can the government use this vehicle?
+              </span>
+              <span className="text-brass-ink">{showReuseRule ? 'Hide' : 'View'}</span>
+            </button>
+            {showReuseRule && (
+              <p className="mt-3 rounded-xl bg-brass/10 p-3 text-sm text-ink">
                 {legal_map.government_use_rule}
               </p>
-              <p className="pt-1 text-[11px] font-semibold text-amber-600 dark:text-amber-400">
-                Important: {status.elapsed_time_disclaimer}
-              </p>
-            </div>
-          </div>
-
-          {/* Procedural Alerts */}
-          {reasoning.alerts.length > 0 && (
-            <div className="space-y-4 rounded-2xl border border-destructive/30 bg-destructive/5 p-6 shadow-sm">
-              <div className="flex items-center gap-2.5 text-base font-bold text-destructive">
-                <AlertOctagon className="h-5 w-5" />
-                <span>Statutory Defaults & Regulatory Alerts ({reasoning.alerts.length})</span>
-              </div>
-
-              <div className="space-y-3">
-                {reasoning.alerts.map((alert, idx) => (
-                  <div
-                    key={idx}
-                    className="shadow-xs space-y-1.5 rounded-xl border border-destructive/20 bg-card p-4"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className={`rounded px-2 py-0.5 text-[10px] font-extrabold uppercase ${
-                            alert.level === 'critical'
-                              ? 'bg-destructive text-destructive-foreground'
-                              : 'bg-amber-500 text-white'
-                          }`}
-                        >
-                          {alert.level}
-                        </span>
-                        <h4 className="text-xs font-bold text-foreground">{alert.title}</h4>
-                      </div>
-                      <span className="font-mono text-[11px] text-muted-foreground">
-                        {alert.statutory_ref}
-                      </span>
-                    </div>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
-                      {alert.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+            )}
+          </section>
         </div>
 
-        {/* Right Column: Custody Metrics, Disposal Route & Next Action */}
         <div className="space-y-6">
-          {/* Custody Meter */}
-          <div className="space-y-4 rounded-2xl border border-border/80 bg-card p-6 shadow-sm">
-            <div className="flex items-center justify-between border-b border-border/50 pb-3">
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-primary" />
-                <h3 className="text-sm font-bold text-foreground">Custody & Detention Duration</h3>
-              </div>
-              <span className="text-xs text-muted-foreground">Ref: 02 Nov 2026</span>
+          <section className="wooden-tile p-5 sm:p-6">
+            <div className="flex items-center gap-2">
+              <Clock3 className="h-5 w-5 text-brass-ink" aria-label="Custody time" />
+              <h2 className="font-serif text-xl font-semibold text-ink">Custody time</h2>
             </div>
-
-            <div className="grid grid-cols-2 gap-3 text-center">
-              <div className="rounded-xl border border-border/40 bg-muted/40 p-3">
-                <div className="text-2xl font-black text-foreground">
+            <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="paper-inset p-4">
+                <strong className="block text-3xl font-bold text-ink">
                   {custody.days_since_seizure}
-                </div>
-                <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
-                  Days in Custody
-                </div>
-                <div className="pt-0.5 text-xs font-semibold text-primary">
-                  {custody.months_since_seizure} months
-                </div>
+                </strong>
+                <span className="text-sm text-ink-muted">days in custody</span>
               </div>
-
-              <div className="rounded-xl border border-border/40 bg-muted/40 p-3">
-                <div className="text-2xl font-black text-foreground">
+              <div className="paper-inset p-4">
+                <strong className="block text-3xl font-bold text-ink">
                   {custody.days_since_production}
-                </div>
-                <div className="text-[11px] uppercase tracking-wide text-muted-foreground">
-                  Since Court Production
-                </div>
-                <div className="pt-0.5 text-xs font-semibold text-primary">
-                  {custody.months_since_production} months
-                </div>
+                </strong>
+                <span className="text-sm text-ink-muted">since court production</span>
               </div>
             </div>
-
-            {/* Supreme Court Sunderbhai Progress Meter */}
-            <div className="space-y-2 pt-1">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-foreground">
-                  SC Sunderbhai Outer Limit (6 Months)
-                </span>
-                <span
-                  className={`font-mono font-bold ${
-                    sunderbhaiPercentage >= 100 ? 'text-destructive' : 'text-primary'
-                  }`}
-                >
-                  {sunderbhaiPercentage}%
-                </span>
+            <div className="mt-5">
+              <div className="flex justify-between text-sm font-semibold text-ink">
+                <span>6-month outer limit</span>
+                <span>{custodyProgress}%</span>
               </div>
-              <div className="h-2.5 w-full overflow-hidden rounded-full bg-muted">
+              <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-oak/30">
                 <div
-                  className={`h-full rounded-full transition-all ${
-                    sunderbhaiPercentage >= 100
-                      ? 'bg-destructive'
-                      : sunderbhaiPercentage >= 75
-                        ? 'bg-amber-500'
-                        : 'bg-primary'
-                  }`}
-                  style={{ width: `${sunderbhaiPercentage}%` }}
+                  className="h-full rounded-full bg-brass"
+                  style={{ width: `${custodyProgress}%` }}
                 />
               </div>
-              <p className="text-[11px] text-muted-foreground">
-                {custody.days_since_production >= 182
-                  ? `Breached by ${custody.days_since_production - 182} days! Mandatory disposal required.`
-                  : `${182 - custody.days_since_production} days remaining before 6-month constitutional outer limit.`}
+              <p className="mt-2 text-sm text-ink-muted">
+                {Math.max(0, custodyLimit - custody.days_since_production)} days remaining
               </p>
             </div>
-          </div>
+          </section>
 
-          {/* Disposal Route & Auction Stage */}
-          <div className="space-y-3.5 rounded-2xl border border-border/80 bg-card p-6 shadow-sm">
-            <div className="flex items-center gap-2 border-b border-border/50 pb-3">
-              <Gavel className="h-5 w-5 text-primary" />
-              <h3 className="text-sm font-bold text-foreground">
-                Statutory Disposal Route (Sec 6)
-              </h3>
+          <section className="wooden-tile p-5 sm:p-6">
+            <div className="flex items-center gap-2">
+              <Gavel className="h-5 w-5 text-brass-ink" aria-label="Disposal route" />
+              <h2 className="font-serif text-xl font-semibold text-ink">Disposal route</h2>
             </div>
-
-            <div className="space-y-2">
-              <div className="text-xs font-bold text-foreground">
-                {disposal_route.applicable_route}
-              </div>
-              <div className="inline-block rounded bg-primary/10 px-2 py-0.5 font-mono text-[11px] text-primary">
-                {disposal_route.statutory_basis}
-              </div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
-                {disposal_route.reasoning}
-              </p>
-            </div>
-
-            <div className="space-y-1.5 rounded-xl border border-border/60 bg-muted/30 p-3">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-muted-foreground">Auction Readiness:</span>
-                <span
-                  className={`font-bold ${
-                    disposal_route.auction_eligible
-                      ? 'text-emerald-600 dark:text-emerald-400'
-                      : 'text-amber-600 dark:text-amber-400'
-                  }`}
-                >
-                  {disposal_route.auction_eligible ? 'ELIGIBLE' : 'INELIGIBLE'}
-                </span>
-              </div>
-              <div className="text-xs font-medium text-foreground">
-                {disposal_route.auction_stage}
-              </div>
-              <div className="text-[11px] text-muted-foreground">
-                Timeline:{' '}
-                <span className="font-semibold">{disposal_route.time_left_for_auction}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Next Action Box */}
-          <div className="space-y-4 rounded-2xl border-2 border-primary/30 bg-primary/5 p-6 shadow-sm">
-            <div className="flex items-center gap-2 text-base font-bold text-primary">
-              <Sparkles className="h-5 w-5" />
-              <span>Recommended Next Legal Action</span>
-            </div>
-
-            <div className="space-y-1.5">
-              <h4 className="text-sm font-extrabold leading-snug text-foreground">
-                {reasoning.next_action}
-              </h4>
-              <p className="text-xs text-muted-foreground">
-                Competent Authority:{' '}
-                <span className="font-semibold text-foreground">{reasoning.action_authority}</span>
-              </p>
-            </div>
-
-            <div className="space-y-2 border-t border-primary/20 pt-3">
-              <div className="text-xs font-bold text-foreground">Procedural Execution Steps:</div>
-              <div className="space-y-1.5">
-                {reasoning.action_steps.map((step, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-foreground/80">
-                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
-                    <span>{step}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Button
-              onClick={handleCopyAction}
-              variant="outline"
-              size="sm"
-              className="w-full gap-2 border-primary/40 text-primary hover:bg-primary/10"
+            <p className="mt-4 text-base font-semibold leading-relaxed text-ink">
+              {disposal_route.applicable_route}
+            </p>
+            <span
+              className={`mt-4 inline-flex rounded-full px-3 py-1 text-sm font-bold ${
+                disposal_route.auction_eligible
+                  ? 'bg-forest/10 text-forest'
+                  : 'bg-brick/10 text-brick'
+              }`}
             >
-              <FileCheck2 className="h-4 w-4" />
-              {copiedAction ? 'Copied to Clipboard!' : 'Copy Action Plan for IO/Court'}
-            </Button>
-          </div>
+              Auction: {disposal_route.auction_eligible ? 'Eligible' : 'Not eligible'}
+            </span>
+            <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+              {disposal_route.reasoning}
+            </p>
+          </section>
         </div>
-      </div>
-
-      {/* Mandatory Statutory Disclaimer Footer */}
-      <div className="rounded-xl border border-border/60 bg-muted/30 p-4 text-center">
-        <p className="text-xs text-muted-foreground">
-          <span className="font-bold text-foreground">Disclaimer:</span> Study tool, not legal
-          advice. Verify with official Gazette and an advocate. Indian law recognizes no automated
-          property forfeiture by passage of detention time.
-        </p>
       </div>
     </div>
   );
