@@ -8,6 +8,6 @@ test.describe('Home Page', () => {
     await expect(
       page.getByRole('banner').getByRole('link', { name: /BharatTrack/i })
     ).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Dashboard' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Seized Vehicles (AI)' })).toBeVisible();
   });
 });

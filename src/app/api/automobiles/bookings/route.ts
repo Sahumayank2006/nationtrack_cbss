@@ -54,8 +54,24 @@ export async function POST(request: NextRequest) {
 
   const startDate = body.startDate;
   const endDate = body.endDate;
+  const parsedStartDate = new Date(startDate);
+  const parsedEndDate = new Date(endDate);
+  if (
+    Number.isNaN(parsedStartDate.getTime()) ||
+    Number.isNaN(parsedEndDate.getTime()) ||
+    parsedStartDate >= parsedEndDate
+  ) {
+    return NextResponse.json(
+      { success: false, message: 'A valid booking time range is required.' },
+      { status: 400 }
+    );
+  }
+
   const stationVehicles = getVehicles().filter(
-    (vehicle) => vehicle.locationLabel === body.stationId
+    (vehicle) =>
+      vehicle.locationLabel === body.stationId &&
+      vehicle.status === 'IDLE' &&
+      (!body.vehicleType || vehicle.vehicleType === body.vehicleType)
   );
   if (stationVehicles.length === 0) {
     return NextResponse.json(
@@ -68,8 +84,6 @@ export async function POST(request: NextRequest) {
     ? stationVehicles.find(
         (candidate) =>
           candidate.id === body.vehicleId &&
-          candidate.status === 'IDLE' &&
-          candidate.vehicleType === body.vehicleType &&
           !hasBookingConflict(candidate.id, startDate, endDate)
       )
     : stationVehicles.find(
